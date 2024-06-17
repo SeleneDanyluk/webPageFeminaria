@@ -3,9 +3,10 @@ import './App.css';
 import UserLayout from './components/layout/UserLayout'
 import Dashboard from './components/dashboard/Dashboard';
 import Autoras from './components/autoras/Autoras';
-import Contacto from './components/contacto/Contacto';
+import Contact from './components/contacto/Contacto';
 import Books from "./components/books/Books";
 import { useState } from "react";
+import SignIn from "./components/signin/SignIn";
 
 function App() {
   const router = createBrowserRouter([
@@ -37,14 +38,22 @@ function App() {
       path: "/contacto",
       element: (
         <UserLayout>
-          <Contacto></Contacto>
+          <Contact></Contact>
+        </UserLayout>
+      ),
+    },
+    {
+      path: "/SignIn",
+      element: (
+        <UserLayout>
+          <SignIn></SignIn>
         </UserLayout>
       ),
     },
   ]);
 
   return (
-    <div >
+    <div>
       {<RouterProvider router={router} />}
     </div>
   );
