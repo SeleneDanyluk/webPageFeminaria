@@ -36,7 +36,7 @@ const UserNavBar = () => {
                             navbarScroll
                         >
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/'>Inicio</Nav.Link>
-                            <Nav.Link className='beige-claro'>Libros</Nav.Link>
+                            <Nav.Link className='beige-claro'onClick={handleClick} to='/libros'>Libros</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/autoras'>Autoras</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/contacto'>Contacto</Nav.Link>
                         </Nav>

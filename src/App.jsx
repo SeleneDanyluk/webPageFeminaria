@@ -4,6 +4,7 @@ import UserLayout from './components/layout/UserLayout'
 import Dashboard from './components/dashboard/Dashboard';
 import Autoras from './components/autoras/Autoras';
 import Contacto from './components/contacto/Contacto';
+import Books from "./components/books/Books";
 import { useState } from "react";
 
 function App() {
@@ -13,6 +14,14 @@ function App() {
       element: (
         <UserLayout>
           <Dashboard></Dashboard>
+        </UserLayout>
+      ),
+    },
+    {
+      path: "/libros",
+      element: (
+        <UserLayout>
+          <Books></Books>
         </UserLayout>
       ),
     },
