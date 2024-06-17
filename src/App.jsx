@@ -3,7 +3,7 @@ import './App.css';
 import UserLayout from './components/layout/UserLayout'
 import Dashboard from './components/dashboard/Dashboard';
 import Autoras from './components/autoras/Autoras';
-import Contacto from './components/contacto/Contacto';
+import Contact from './components/contacto/Contacto';
 import { useState } from "react";
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
       path: "/contacto",
       element: (
         <UserLayout>
-          <Contacto></Contacto>
+          <Contact></Contact>
         </UserLayout>
       ),
     },
