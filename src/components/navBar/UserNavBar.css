@@ -13,6 +13,10 @@
     align-items: center;
 }
 
+.navbar-container-1 img{
+    width: 60%;
+}
+
 .icon-container{
     display: flex;
     justify-content: flex-end;
@@ -27,11 +31,12 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 130px;
+    width: 80px;
+    align-content: center;
 }
 
 .nav-button img{
-    height: 30px;
+    height: 25px;
 }
 
 .nav-button:hover{
@@ -39,6 +44,7 @@
 }
 
 .navbar-container-2 {
+    width: 100%;
     background-color: #7C3A9E;
     padding: 20px;
 }
@@ -46,7 +52,6 @@
 
 .navbar-container-1 .svg-img {
     margin: 20px;
-    width: 5vh;
 }
 
 .search-button {

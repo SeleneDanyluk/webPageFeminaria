@@ -28,7 +28,7 @@ const Footer = () => {
                             <Nav defaultActiveKey="/home" className="flex-column">
                                 <h6>Explorar</h6>
                                 <Nav.Link onClick={handleClick} to='/'>Inicio</Nav.Link>
-                                <Nav.Link >Libros</Nav.Link>
+                                <Nav.Link onClick={handleClick} to='/libros'>Libros</Nav.Link>
                                 <Nav.Link onClick={handleClick} to='/autoras'>Autoras</Nav.Link>
                             </Nav>
                         </Col>
