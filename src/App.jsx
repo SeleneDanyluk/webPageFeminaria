@@ -5,6 +5,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import Autoras from './components/autoras/Autoras';
 import Contact from './components/contacto/Contacto';
 import { useState } from "react";
+import SignIn from "./components/signin/SignIn";
 
 function App() {
   const router = createBrowserRouter([
@@ -32,10 +33,18 @@ function App() {
         </UserLayout>
       ),
     },
+    {
+      path: "/SignIn",
+      element: (
+        <UserLayout>
+          <SignIn></SignIn>
+        </UserLayout>
+      ),
+    },
   ]);
 
   return (
-    <div >
+    <div>
       {<RouterProvider router={router} />}
     </div>
   );
