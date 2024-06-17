@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import './Book.css';
 
-const Book = ({ title, author, imageUrl, description, price }) => {
+const Book = ({ title, author, imageUrl, description, price, id }) => {
     return (
         <div className='book-container'>
-            <Card style={{ width: '18rem' }}>
+            <Card style={{ width: '18rem' }} key={id}>
                 <Card.Img variant="top" src={imageUrl} />
                 <Card.Body>
                     <div className='book-data-container'>
@@ -34,6 +34,7 @@ Book.PropTypes = {
     imageUrl: PropTypes.string,
     description: PropTypes.string,
     price: PropTypes.number,
+    id: PropTypes.number,
 };
 
 export default Book;
