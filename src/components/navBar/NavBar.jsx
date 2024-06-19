@@ -1,5 +1,5 @@
 import React from 'react'
-import './UserNavBar.css'
+import './NavBar.css'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -8,7 +8,7 @@ import Image from 'react-bootstrap/Image';
 import { useNavigate } from "react-router-dom";
 
 
-const UserNavBar = () => {
+const NavBar = () => {
     const navigate = useNavigate();
 
     const handleClick = (e) =>{
@@ -46,4 +46,4 @@ const UserNavBar = () => {
     );
 };
 
-export default UserNavBar
+export default NavBar
