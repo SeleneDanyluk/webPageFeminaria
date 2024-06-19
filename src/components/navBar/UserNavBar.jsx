@@ -2,7 +2,6 @@ import React from 'react'
 import './UserNavBar.css'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
@@ -40,15 +39,6 @@ const UserNavBar = () => {
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/autoras'>Autoras</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/contacto'>Contacto</Nav.Link>
                         </Nav>
-                        <Form className="d-flex">
-                            <Form.Control
-                                type="search"
-                                placeholder="Buscar"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                            <Button variant="outline-secondary search-button">Buscar</Button>
-                        </Form>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

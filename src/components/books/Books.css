@@ -5,3 +5,8 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
+
+.search-container{
+    display: flex;
+    background-color: #7C3A9E;
+}

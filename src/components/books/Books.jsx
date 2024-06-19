@@ -2,10 +2,12 @@ import React from 'react';
 import Book from '../book/Book';
 import './Books.css'
 import { useContext, useEffect, useState } from "react";
+import SearchBook from '../searchBook/SearchBook';
+import { Button } from 'react-bootstrap';
 
 
 const Books = () => {
-
+    const [prevData, setPrevData] = useState([]);
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
@@ -20,7 +22,6 @@ const Books = () => {
                 return response.json();
             })
             .then((booksData) => {
-                console.log(booksData);
                 setBooks(booksData);
             })
             .catch((error) => {
@@ -28,22 +29,42 @@ const Books = () => {
             });
     }, []);
 
+    const searchHandler = (onSearch) => {
+        const filteredBooks = books.filter(
+          (book) =>
+            book.title.toLowerCase().includes(onSearch.toLowerCase()) ||
+            book.author.toLowerCase().includes(onSearch.toLowerCase())
+        );
+        setPrevData(books);
+        setBooks(filteredBooks);
+      };
+
+    const cleanSearch = (e) => {
+        setBooks(prevData);
+    };
+
     return (
-        <div className='books-container'>
-            {books.length > 0 ? (
-                books.map((book) => (
-                    <Book
-                        key={book.id}
-                        title={book.title}
-                        author={book.author}
-                        imageUrl={'https://res.cloudinary.com/di0y6v99p/image/upload/v1718575669/images_secufd.jpg'}
-                        description={book.description}
-                        price={book.price}
-                    ></Book>
-                ))
-            ) : (
-                <p>NO HAY NADA PARA MOSTRAR</p>
-            )}
+        <div>
+            <div className='search-container'>
+              <SearchBook onSearch={searchHandler}></SearchBook>
+              <Button className='outline-secondary search-button' onClick={cleanSearch}>Limpiar</Button>
+            </div>
+            <div className='books-container'>
+                {books.length > 0 ? (
+                    books.map((book) => (
+                        <Book
+                            key={book.id}
+                            title={book.title}
+                            author={book.author}
+                            imageUrl={'https://res.cloudinary.com/di0y6v99p/image/upload/v1718575669/images_secufd.jpg'}
+                            description={book.description}
+                            price={book.price}
+                        ></Book>
+                    ))
+                ) : (
+                    <p>NO HAY NADA PARA MOSTRAR</p>
+                )}
+            </div>
         </div>
     );
 };
