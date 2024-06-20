@@ -11,7 +11,7 @@ const AuthenticationContext = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState();
 
     return (
-        <AuthenticationContext.Provider value={isAuthenticated}>
+        <AuthenticationContext.Provider value={{isAuthenticated}}>
             {children}
         </AuthenticationContext.Provider>
     );
