@@ -1,15 +1,14 @@
 import React from 'react'
-import './UserNavBar.css'
+import './NavBar.css'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import { useNavigate } from "react-router-dom";
 
 
-const UserNavBar = () => {
+const NavBar = () => {
     const navigate = useNavigate();
 
     const handleClick = (e) =>{
@@ -35,20 +34,11 @@ const UserNavBar = () => {
                             style={{ maxHeight: '100px' }}
                             navbarScroll
                         >
-                            <Nav.Link className='beige-claro'onClick={handleClick} to='/login'>Inicio</Nav.Link>
-                            <Nav.Link className='beige-claro'>Libros</Nav.Link>
+                            <Nav.Link className='beige-claro'onClick={handleClick} to='/'>Inicio</Nav.Link>
+                            <Nav.Link className='beige-claro'onClick={handleClick} to='/libros'>Libros</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/autoras'>Autoras</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/contacto'>Contacto</Nav.Link>
                         </Nav>
-                        <Form className="d-flex">
-                            <Form.Control
-                                type="search"
-                                placeholder="Buscar"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                            <Button variant="outline-secondary search-button">Buscar</Button>
-                        </Form>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
@@ -56,4 +46,4 @@ const UserNavBar = () => {
     );
 };
 
-export default UserNavBar
+export default NavBar

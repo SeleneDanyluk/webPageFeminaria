@@ -1,0 +1,22 @@
+.book-container{
+    display: flex;
+    margin: 10px;
+    width: 300px;
+}
+
+.book-container .book-data-container{
+    height: 80px;
+}
+
+.book-container .button-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.book-container .book-description{
+    height: 100px;
+}
+
+.button-container button {
+    margin-bottom: 5px;
+}

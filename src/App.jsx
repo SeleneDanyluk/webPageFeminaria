@@ -1,41 +1,60 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import './App.css';
-import UserLayout from './components/layout/UserLayout'
+import UserLayout from './components/layout/Layout'
 import Dashboard from './components/dashboard/Dashboard';
-import Autoras from './components/autoras/Autoras';
-import Contacto from './components/contacto/Contacto';
+import Autoras from './components/authors/Autoras';
+import Contact from './components/contact/Contact';
+import Books from "./components/books/Books";
 import { useState } from "react";
+import SignIn from "./components/signin/SignIn";
+import Layout from "./components/layout/Layout";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <UserLayout>
-          <Login></Login>
-        </UserLayout>
+        <Layout>
+          <Dashboard></Dashboard>
+        </Layout>
+      ),
+    },
+    {
+      path: "/libros",
+      element: (
+        <Layout>
+          <Books></Books>
+        </Layout>
       ),
     },
     {
       path: "/autoras",
       element: (
-        <UserLayout>
+        <Layout>
           <Autoras></Autoras>
-        </UserLayout>
+        </Layout>
       ),
     },
     {
       path: "/contacto",
       element: (
-        <UserLayout>
-          <Contacto></Contacto>
-        </UserLayout>
+        <Layout>
+          <Contact></Contact>
+        </Layout>
+      ),
+    },
+    {
+      path: "/SignIn",
+      element: (
+        <Layout>
+          <SignIn></SignIn>
+        </Layout>
       ),
     },
   ]);
 
   return (
-    <div >
+    <div>
       {<RouterProvider router={router} />}
     </div>
   );

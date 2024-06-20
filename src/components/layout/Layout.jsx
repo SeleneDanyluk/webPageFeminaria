@@ -1,19 +1,20 @@
 import React from 'react'
 import PropTypes from "prop-types";
-import UserNavBar from '../navBar/UserNavBar';
 import Footer from '../footer/Footer';
+import NavBar from '../navBar/NavBar';
 
-const UserLayout = ({ children }) => {
+const Layout = ({ children }) => {
     return (
         <div>
-            <UserNavBar></UserNavBar>
+            <NavBar></NavBar>
             {children}
             <Footer></Footer>
         </div>
     );
 };
 
-UserLayout.PropTypes = {
+Layout.PropTypes = {
     children: PropTypes.object
 };
-export default UserLayout
+
+export default Layout;
