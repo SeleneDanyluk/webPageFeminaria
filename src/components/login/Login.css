@@ -1,0 +1,16 @@
+.input-login{
+    background-color: #FBD4CB;
+    border-radius: 0px !important;
+    border: 1px solid #7C3A9E !important;
+    width: 60%;
+}
+.input-login:focus{
+    background-color: #FBD4CB;
+}
+.btn-login{
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.3em;
+    color: #7C3A9E;
+    padding: 0px;
+}
