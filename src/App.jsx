@@ -1,6 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import './App.css';
-import UserLayout from './components/layout/Layout'
 import Dashboard from './components/dashboard/Dashboard';
 import Autoras from './components/authors/Autoras';
 import Contact from './components/contact/Contact';
