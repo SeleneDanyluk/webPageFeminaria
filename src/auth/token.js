@@ -1,3 +1,5 @@
+import {jwtVerify} from 'jose'
+
 export const getUser = async (email, password) => {
 
     const body = JSON.stringify({
@@ -5,7 +7,7 @@ export const getUser = async (email, password) => {
         password
     })
     
-     return await fetch("https://localhost:7069/api/Authentication/authenticate", {
+     const { token } = await fetch("https://localhost:7069/api/Authentication/authenticate", {
             method: "POST",
             body,
             headers: {
@@ -13,16 +15,14 @@ export const getUser = async (email, password) => {
             }
         }, )
     .then((response) => {
-        console.log(response.text())
-        return response.text() 
-    })
-    .then((data) => {//
-        console.log(data); //
-        return data;  //
+        return response.json() 
     })
     .catch((error) => {
         console.log(error)
         console.error("Error:", error);
     });
 
+    const {payload} = await jwtVerify(token, new TextEncoder().encode("thisisthesecretforgeneratingakey(mustbeatleast32bitlong)"))
+
+    return payload
 }
