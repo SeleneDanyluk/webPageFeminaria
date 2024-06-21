@@ -8,8 +8,9 @@ import Books from "./components/books/Books";
 import { useState } from "react";
 import SignIn from "./components/signin/SignIn";
 import Layout from "./components/layout/Layout";
+import CreateUser from "./components/createUser/CreateUser";
+import Users from "./components/users/Users";
 import Login from "./components/login/Login";
-import CreateUser from "./components/createUser/CreateUser.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -66,6 +67,14 @@ function App() {
       element: (
         <Layout>
           <CreateUser></CreateUser>
+        </Layout>
+      ),
+    },
+    {
+      path: "/usuarios",
+      element: (
+        <Layout>
+          <Users />
         </Layout>
       ),
     },
