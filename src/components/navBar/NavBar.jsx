@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import './NavBar.css'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -6,11 +6,11 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import { useNavigate } from "react-router-dom";
-
+import UserContext from "../../context/userContext"
 
 const NavBar = () => {
     const navigate = useNavigate();
-
+    const {userType} = useContext(UserContext)
     const handleClick = (e) =>{
         const path = e.target.getAttribute('to');
         navigate(path);
@@ -38,6 +38,10 @@ const NavBar = () => {
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/libros'>Libros</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/autoras'>Autoras</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/contacto'>Contacto</Nav.Link>
+                            {
+                                userType == 2 && <Nav.Link className='beige-claro'onClick={handleClick} to='/createadmin'>Crear Admin</Nav.Link>
+
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

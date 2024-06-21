@@ -1,9 +1,12 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import './Book.css';
+import UserContext from "../../context/userContext"
 
 const Book = ({ title, author, imageUrl, description, price, id }) => {
+    const {userType} = useContext(UserContext)
+    console.log(userType)
     return (
         <div className='book-container'>
             <Card style={{ width: '18rem' }} key={id}>
@@ -19,8 +22,13 @@ const Book = ({ title, author, imageUrl, description, price, id }) => {
                     </Card.Text>
                     <div className='container button-container'>
                         <Button variant="dark">Agregar al carrito</Button>
-                        <Button>Editar</Button>
-                        <Button>Eliminar</Button>
+                        {
+                            userType == 2 || userType == 1 && 
+                            <>
+                            <Button>Editar</Button>
+                            <Button>Eliminar</Button>
+                            </>
+                        }
                     </div>
                 </Card.Body>
             </Card>

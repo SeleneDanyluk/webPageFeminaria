@@ -5,11 +5,17 @@ import Dashboard from './components/dashboard/Dashboard';
 import Autoras from './components/authors/Autoras';
 import Contact from './components/contact/Contact';
 import Books from "./components/books/Books";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import SignIn from "./components/signin/SignIn";
-import Login from "./components/login/Login"
+import Layout from "./components/layout/Layout";
+import Login from "./components/login/Login";
+import CreateUser from "./components/createUser/CreateUser.jsx";
+import UserContext, { UserProvider } from "./context/userContext"
+
 
 function App() {
+  const context = useContext(UserContext)
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -59,11 +65,23 @@ function App() {
         </Layout>
       ),
     },
+    {
+      path: "/createadmin",
+      element: (
+        <Layout>
+          <CreateUser></CreateUser>
+        </Layout>
+      ),
+    },
   ]);
 
   return (
     <div>
-      {<RouterProvider router={router} />}
+      {
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
+      }
     </div>
   );
 };
