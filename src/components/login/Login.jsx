@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import './Login.css'
 import { getUser } from '../../auth/token'
 import { useNavigate } from 'react-router-dom'
+import UserContext from '../../context/userContext'
 
 const Login = () => {
     const [usernameEntered, setUsernameEntered] = useState('')
     const [passwordEntered, setPasswordEntered] = useState('')
+
+    const {userType, setUserType} = useContext(UserContext)
 
     const navigate = useNavigate();
     
@@ -19,8 +22,19 @@ const Login = () => {
     }
 
     const handleLogin = async () => {
-        const data = await getUser(usernameEntered, passwordEntered)
-        console.log(data)
+        const {role} = await getUser(usernameEntered, passwordEntered)
+        console.log(role)
+        if(role) alert("ingreso ok")
+        else alert("error al ingresar")
+
+        switch (role) {
+            case "admin": setUserType(1)
+            break;
+            case "superAdmin": setUserType(2)
+            break;
+            default: setUserType(0)
+            break;
+        }
     }
 
     const handleRegister = () => {

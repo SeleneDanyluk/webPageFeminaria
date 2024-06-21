@@ -4,9 +4,12 @@ import './Books.css'
 import { useContext, useEffect, useState } from "react";
 import SearchBook from '../searchBook/SearchBook';
 import { Button } from 'react-bootstrap';
+import UserContext from "../../context/userContext"
 
 
 const Books = () => {
+    const {userType} = useContext(UserContext)
+  
     const [prevData, setPrevData] = useState([]);
     const [books, setBooks] = useState([]);
 
