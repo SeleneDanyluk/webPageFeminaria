@@ -1,21 +1,61 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Contenedor del footer */
 .footer-container {
-    font-family: "Roboto", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-    background-color: #7C3A9E;
-    color: #FFF1EE;
+    background-color: #7C3A9E; /* Color de fondo del footer */
+    color: #FFF1EE; /* Color del texto del footer */
+    padding: 40px 20px; /* Padding alrededor del contenido del footer */
+    margin-top: 0; /* Elimina cualquier margen superior */
 }
 
-.footer-container {
-    color: #FFF1EE;
-    padding: 5px;
+/* Estilo del logo en el footer */
+.logo-img img {
+    max-width: 200px; /* Tamaño máximo del logo */
+    margin-bottom: 20px; /* Margen inferior */
 }
 
-.footer-container img {
-    width: 60%;
+/* Títulos de las secciones del footer */
+.footer-container h6 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px; /* Separación con los enlaces */
 }
 
-.logo-img{
-    display: flex;
-    justify-content: space-evenly;
+/* Enlaces de navegación en el footer */
+.footer-container .nav-link {
+    color: #FFF1EE; /* Color de los enlaces */
+    margin-bottom: 5px; /* Margen inferior */
+    padding: 0; /* Sin padding */
+}
+
+.footer-container .nav-link:hover {
+    color: #ffffff; /* Color al pasar el mouse por encima */
+    text-decoration: none; /* Sin subrayado */
+}
+
+/* Ítems de contacto en el footer */
+.footer-container .nav-item {
+    color: #FFF1EE; /* Color del texto */
+    margin-bottom: 5px; /* Margen inferior */
+}
+
+.footer-container .nav-item:hover {
+    color: #ffffff; /* Color al pasar el mouse por encima */
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .footer-container {
+        text-align: center; /* Centrar el texto en pantallas pequeñas */
+    }
+
+    .footer-container .nav {
+        align-items: center; /* Centrar los elementos de navegación */
+    }
+
+    .footer-container .logo-img {
+        margin-bottom: 20px; /* Margen inferior */
+    }
 }
