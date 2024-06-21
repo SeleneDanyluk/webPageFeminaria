@@ -1,16 +1,30 @@
 import React, { useState } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import './Login.css'
+import { getUser } from '../../auth/token'
+import { useNavigate } from 'react-router-dom'
+
 const Login = () => {
     const [usernameEntered, setUsernameEntered] = useState('')
     const [passwordEntered, setPasswordEntered] = useState('')
 
+    const navigate = useNavigate();
+    
     const handleUsernameEntered = (e) => {
         setUsernameEntered(e.target.value)
     }
 
-    const handlePasswordEntered = () => {
+    const handlePasswordEntered = (e) => {
         setPasswordEntered(e.target.value)
+    }
+
+    const handleLogin = async () => {
+        const data = await getUser(usernameEntered, passwordEntered)
+        console.log(data)
+    }
+
+    const handleRegister = () => {
+        navigate('/SignIn')
     }
 
     return (
@@ -29,7 +43,7 @@ const Login = () => {
                         <p className='w-75 m-0 mb-2'>
                         Además de sumar puntos extra!, podrás recibir ofertas, promociones e información de los últimos lanzamientos.
                         </p>
-                        <Button variant='link' className='btn-login'>Registrarse</Button>
+                        <Button onClick={handleRegister} variant='link' className='btn-login'>Registrarse</Button>
                     </Col>
                     <Col md={6}>
                         <h3>Ingresar</h3>
@@ -51,7 +65,7 @@ const Login = () => {
                                 value={passwordEntered}
                             />
                         </Form.Group>
-                        <Button variant='link' className='btn-login'>Acceder</Button>
+                        <Button onClick={handleLogin} variant='link' className='btn-login'>Acceder</Button>
                     </Col>
                 </Row>
             </Container>

@@ -8,7 +8,8 @@ import Books from "./components/books/Books";
 import { useState } from "react";
 import SignIn from "./components/signin/SignIn";
 import Layout from "./components/layout/Layout";
-import Login from "./components/login/Login"
+import Login from "./components/login/Login";
+import CreateUser from "./components/createUser/CreateUser.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -57,6 +58,14 @@ function App() {
       element: (
         <Layout>
           <Login></Login>
+        </Layout>
+      ),
+    },
+    {
+      path: "/createadmin",
+      element: (
+        <Layout>
+          <CreateUser></CreateUser>
         </Layout>
       ),
     },
