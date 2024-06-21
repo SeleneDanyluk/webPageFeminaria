@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import './Login.css';
 import axios from 'axios';
-import UseAxios from '../../hooks/useAuthentcation/UseAxios';
 import { useAuth } from '../../services/authentication/AuthenticationContext';
-import UseAxios from '../../hooks/useAuthentcation/UseAxios';
+
 
 const Login = () => {
     const [usernameEntered, setUsernameEntered] = useState('');
