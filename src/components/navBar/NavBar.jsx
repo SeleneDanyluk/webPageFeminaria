@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import './NavBar.css'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -6,11 +6,11 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import { useNavigate } from "react-router-dom";
-
+import UserContext from "../../context/userContext"
 
 const NavBar = () => {
     const navigate = useNavigate();
-
+    const {userType} = useContext(UserContext)
     const handleClick = (e) =>{
         const path = e.target.getAttribute('to');
         navigate(path);
@@ -22,7 +22,7 @@ const NavBar = () => {
                 <Container><Image src="../src/data/images/Recurso 8.svg" fluid /></Container>
                 <Container className='icon-container'>
                     <Button className='nav-button' onClick={handleClick} to='/login'><Image className='svg-img' src="../src/data/images/user-solid.svg" fluid />Acceder</Button>
-                    <Button className='nav-button'><Image className='svg-img' src="../src/data/images/cart-shopping-solid.svg" fluid />Carrito</Button>
+                    <Button className='nav-button' onClick={handleClick} to='/cart'><Image className='svg-img' src="../src/data/images/cart-shopping-solid.svg" fluid />Carrito</Button>
                 </Container>
             </Container>
             <Navbar expand="lg" className="navbar-container-2">
@@ -38,6 +38,10 @@ const NavBar = () => {
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/libros'>Libros</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/autoras'>Autoras</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/contacto'>Contacto</Nav.Link>
+                            {
+                                userType == 2 && <Nav.Link className='beige-claro'onClick={handleClick} to='/createadmin'>Crear Admin</Nav.Link>
+
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
