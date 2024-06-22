@@ -44,11 +44,17 @@ const Login = () => {
         console.log(role)
         if(role) alert("ingreso ok")
         else alert("error al ingresar")
-
+        
         switch (role) {
-            case "admin": setUserType(1)
+            case "admin": {
+                setUserType(1)
+                window.localStorage.setItem("type", 1)
+            }
             break;
-            case "superAdmin": setUserType(2)
+            case "superAdmin": {
+                setUserType(2)
+                window.localStorage.setItem("type", 2)
+            }
             break;
             default: setUserType(0)
             break;
