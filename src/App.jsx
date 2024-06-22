@@ -21,7 +21,7 @@ function App() {
       path: "/",
       element: (
         <Layout>
-          <NewBook></NewBook>
+          <Dashboard></Dashboard>
         </Layout>
       ),
     },
@@ -80,6 +80,14 @@ function App() {
           <CreateUser></CreateUser>
         </Layout>
       ),
+    },
+    {
+      path: "/newbook",
+      element: (
+        <Layout>
+          <NewBook></NewBook>
+        </Layout>
+        ),
     },
   ]);
 
