@@ -39,7 +39,11 @@ const NavBar = () => {
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/autoras'>Autoras</Nav.Link>
                             <Nav.Link className='beige-claro'onClick={handleClick} to='/contacto'>Contacto</Nav.Link>
                             {
-                                userType == 2 && <Nav.Link className='beige-claro'onClick={handleClick} to='/createadmin'>Crear Admin</Nav.Link>
+                                userType == 2 && <Nav.Link className='beige-claro'onClick={handleClick} to='/createadmin'>Crear admin</Nav.Link>
+
+                            }
+                            {
+                                userType == 2 && <Nav.Link className='beige-claro'onClick={handleClick} to='/usuarios'>Usuarios</Nav.Link>
 
                             }
                         </Nav>
