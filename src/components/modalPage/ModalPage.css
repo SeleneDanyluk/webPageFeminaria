@@ -1,0 +1,25 @@
+.btn-modal{
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #7C3A9E;
+    padding: 0px;
+}
+
+.btn-modal:hover{
+    color: #7C3A9E;
+    opacity: 80%;
+}
+.modal-content{
+    border: 3px solid #7C3A9E;
+    background-color: #FFF1EE;
+    padding: 10px;
+    border-radius: 30px 30px 30px 30px;
+}
+.modal-header{
+    border: 0px;
+}
+.modal-footer{
+    justify-content: flex-start !important;
+    border: 0px;
+}

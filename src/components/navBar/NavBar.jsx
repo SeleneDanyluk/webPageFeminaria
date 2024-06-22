@@ -22,7 +22,7 @@ const NavBar = () => {
                 <Container><Image src="../src/data/images/Recurso 8.svg" fluid /></Container>
                 <Container className='icon-container'>
                     <Button className='nav-button' onClick={handleClick} to='/login'><Image className='svg-img' src="../src/data/images/user-solid.svg" fluid />Acceder</Button>
-                    <Button className='nav-button'><Image className='svg-img' src="../src/data/images/cart-shopping-solid.svg" fluid />Carrito</Button>
+                    <Button className='nav-button' onClick={handleClick} to='/cart'><Image className='svg-img' src="../src/data/images/cart-shopping-solid.svg" fluid />Carrito</Button>
                 </Container>
             </Container>
             <Navbar expand="lg" className="navbar-container-2">
