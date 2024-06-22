@@ -7,6 +7,26 @@ import UserContext from "../../context/userContext"
 const Book = ({ title, author, imageUrl, description, price, id }) => {
     const {userType} = useContext(UserContext)
     console.log(userType)
+
+    const handleAddCart = () => {
+        const cartItems = localStorage.getItem("cartItem")
+        const parsedItems = JSON.parse(cartItems);
+        if (cartItems !== null && Array.isArray(parsedItems)){
+            if (parsedItems.some(p => p== title))
+            {
+                alert("Ya está agregado al carrito")
+                return
+            }
+            parsedItems.push(title)
+            localStorage.setItem("cartItem", JSON.stringify(parsedItems))
+        }
+        else {
+            const items = []
+            items.push(title)
+            localStorage.setItem("cartItem", JSON.stringify(items))
+        }
+         
+    }
     return (
         <div className='book-container'>
             <Card style={{ width: '18rem' }} key={id}>
@@ -21,8 +41,9 @@ const Book = ({ title, author, imageUrl, description, price, id }) => {
                         {description}
                     </Card.Text>
                     <div className='container button-container'>
-                        <Button variant="dark">Agregar al carrito</Button>
+                        <Button variant="dark" onClick={handleAddCart}>Agregar al carrito</Button>
                         {
+
                             userType == 2 || userType == 1 && 
                             <>
                             <Button>Editar</Button>
