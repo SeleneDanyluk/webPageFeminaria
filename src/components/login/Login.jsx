@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
-import './Login.css';
-import axios from 'axios';
+import './Login.css'
+import { getUser } from '../../auth/token'
+import { useNavigate } from 'react-router-dom'
+import UserContext from '../../context/userContext'
 import { useAuth } from '../../services/authentication/AuthenticationContext';
 
 
@@ -10,6 +12,10 @@ const Login = () => {
     const [passwordEntered, setPasswordEntered] = useState('');
     const { login } = useAuth();
 
+    const {userType, setUserType} = useContext(UserContext)
+
+    const navigate = useNavigate();
+    
     const handleUsernameEntered = (e) => {
         setUsernameEntered(e.target.value)
     };
@@ -18,19 +24,32 @@ const Login = () => {
         setPasswordEntered(e.target.value)
     };
 
+
     const handleLogin = async () => {
-        try {
-            const response = await axios.post('', {
-                email: usernameEntered,
-                password: passwordEntered,
-                userType: 1
-            });
-            const { token } = response.data;
-            setToken(token);
-        } catch (error) {
-            console.error('Error al iniciar sesión:', error);
+        const {role} = await getUser(usernameEntered, passwordEntered)
+        console.log(role)
+        if(role) alert("ingreso ok")
+        else alert("error al ingresar")
+        
+        switch (role) {
+            case "admin": {
+                setUserType(1)
+                window.localStorage.setItem("type", 1)
+            }
+            break;
+            case "superAdmin": {
+                setUserType(2)
+                window.localStorage.setItem("type", 2)
+            }
+            break;
+            default: setUserType(0)
+            break;
         }
-    };
+    }
+
+    const handleRegister = () => {
+        navigate('/SignIn')
+    }
 
     return (
         <>
@@ -48,7 +67,7 @@ const Login = () => {
                         <p className='w-75 m-0 mb-2'>
                             Además de sumar puntos extra!, podrás recibir ofertas, promociones e información de los últimos lanzamientos.
                         </p>
-                        <Button variant='link' className='btn-login'>Registrarse</Button>
+                        <Button onClick={handleRegister} variant='link' className='btn-login'>Registrarse</Button>
                     </Col>
                     <Col md={6}>
                         <h3>Ingresar</h3>
@@ -70,7 +89,8 @@ const Login = () => {
                                 value={passwordEntered}
                             />
                         </Form.Group>
-                        <Button variant='link' className='btn-login' onClick={handleLogin}>Acceder</Button>
+                        <Button onClick={handleLogin} variant='link' className='btn-login'>Acceder</Button>
+
                     </Col>
                 </Row>
             </Container>

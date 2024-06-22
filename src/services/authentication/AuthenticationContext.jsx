@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from "prop-types";
-import axios from 'axios';
 import { useContext, useEffect, useState, createContext } from "react";
 
 export const authentication = createContext({
