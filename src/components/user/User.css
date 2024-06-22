@@ -1,0 +1,9 @@
+.user-container {
+    margin: 10px 0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.user-button {
+    margin-left: 10px;
+}
