@@ -14,7 +14,7 @@ const Layout = ({ children }) => {
 };
 
 Layout.PropTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
 };
 
 export default Layout;

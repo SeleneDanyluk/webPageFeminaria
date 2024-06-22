@@ -1,0 +1,49 @@
+/* Asegura que el contenedor de la imagen de encabezado ocupe toda la pantalla */
+.header-image-container {
+    position: relative;
+    width: 100%;
+    height: 60vh; /* Altura completa de la ventana */
+    overflow: hidden;
+}
+
+/* Imagen de encabezado ocupando todo el contenedor */
+.header-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cubre el contenedor manteniendo el aspecto */
+}
+
+/* Contenido sobre la imagen de encabezado */
+.header-content {
+    position: absolute;
+    top: 50%;
+    left: 5%; /* Ajusta este valor para mover el contenido más hacia la izquierda o derecha */
+    transform: translateY(-50%);
+    color: white;
+    text-align: justify; /* Justifica el texto */
+    max-width: 80%; /* Asegura que el contenido no ocupe todo el ancho de la pantalla */
+}
+
+/* Estiliza el contenedor del carrusel */
+.carrousel-container {
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+    overflow: hidden; /* Asegura que no haya desbordamiento */
+}
+
+/* Asegura que el carrusel ocupe toda la altura de la pantalla */
+.carousel-inner {
+    height: 100vh; /* Altura de la pantalla completa */
+}
+
+/* Asegura que cada item del carrusel ocupe toda la altura del contenedor */
+.carousel-item {
+    height: 100%;
+}
+
+/* Imagen del carrusel ocupando todo el contenedor */
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cubre el contenedor manteniendo el aspecto */
+}
+

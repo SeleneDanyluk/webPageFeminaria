@@ -4,10 +4,14 @@ import './Login.css'
 import { getUser } from '../../auth/token'
 import { useNavigate } from 'react-router-dom'
 import UserContext from '../../context/userContext'
+import axios from 'axios';
+import { useAuth } from '../../services/authentication/AuthenticationContext';
+
 
 const Login = () => {
-    const [usernameEntered, setUsernameEntered] = useState('')
-    const [passwordEntered, setPasswordEntered] = useState('')
+    const [usernameEntered, setUsernameEntered] = useState('');
+    const [passwordEntered, setPasswordEntered] = useState('');
+    const { login } = useAuth();
 
     const {userType, setUserType} = useContext(UserContext)
 
@@ -15,11 +19,25 @@ const Login = () => {
     
     const handleUsernameEntered = (e) => {
         setUsernameEntered(e.target.value)
-    }
+    };
 
     const handlePasswordEntered = (e) => {
         setPasswordEntered(e.target.value)
-    }
+    };
+
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post('', {
+                email: usernameEntered,
+                password: passwordEntered,
+                userType: 1
+            });
+            const { token } = response.data;
+            setToken(token);
+        } catch (error) {
+            console.error('Error al iniciar sesión:', error);
+        }
+    };
 
     const handleLogin = async () => {
         const {role} = await getUser(usernameEntered, passwordEntered)
@@ -61,7 +79,7 @@ const Login = () => {
                             Te pediremos solo algunos datos para hacer el seguimiento de los pedidos y poder procesar tus compras más rápido.
                         </p>
                         <p className='w-75 m-0 mb-2'>
-                        Además de sumar puntos extra!, podrás recibir ofertas, promociones e información de los últimos lanzamientos.
+                            Además de sumar puntos extra!, podrás recibir ofertas, promociones e información de los últimos lanzamientos.
                         </p>
                         <Button onClick={handleRegister} variant='link' className='btn-login'>Registrarse</Button>
                     </Col>
@@ -86,11 +104,12 @@ const Login = () => {
                             />
                         </Form.Group>
                         <Button onClick={handleLogin} variant='link' className='btn-login'>Acceder</Button>
+
                     </Col>
                 </Row>
             </Container>
         </>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

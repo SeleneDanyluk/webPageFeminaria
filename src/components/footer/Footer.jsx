@@ -40,15 +40,13 @@ const Footer = () => {
                             </Nav>
                         </Col>
                         <Col>
-                            <Col>
-                                <Nav defaultActiveKey="/home" className="flex-column">
-                                    <h6>Contacto</h6>
-                                    <Nav.Item>Email: feminaria@gmail.com</Nav.Item>
-                                    <Nav.Item>Telefono: 341-556985</Nav.Item>
-                                    <Nav.Link href="/home">Librerias</Nav.Link>
-                                    <Nav.Link eventKey="link-1">Redes</Nav.Link>
-                                </Nav>
-                            </Col>
+                            <Nav defaultActiveKey="/home" className="flex-column">
+                                <h6>Contacto</h6>
+                                <Nav.Item>Email: feminaria@gmail.com</Nav.Item>
+                                <Nav.Item>Teléfono: 341-556985</Nav.Item>
+                                <Nav.Link href="/home">Librerías</Nav.Link>
+                                <Nav.Link eventKey="link-1">Redes</Nav.Link>
+                            </Nav>
                         </Col>
                     </Row>
                 </Col>
