@@ -4,7 +4,6 @@ import './Login.css'
 import { getUser } from '../../auth/token'
 import { useNavigate } from 'react-router-dom'
 import UserContext from '../../context/userContext'
-import axios from 'axios';
 import { useAuth } from '../../services/authentication/AuthenticationContext';
 
 
@@ -25,19 +24,6 @@ const Login = () => {
         setPasswordEntered(e.target.value)
     };
 
-    const handleLogin = async () => {
-        try {
-            const response = await axios.post('', {
-                email: usernameEntered,
-                password: passwordEntered,
-                userType: 1
-            });
-            const { token } = response.data;
-            setToken(token);
-        } catch (error) {
-            console.error('Error al iniciar sesión:', error);
-        }
-    };
 
     const handleLogin = async () => {
         const {role} = await getUser(usernameEntered, passwordEntered)
