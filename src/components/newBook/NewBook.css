@@ -1,0 +1,31 @@
+.input-newBook {
+    background-color: #FBD4CB;
+    border-radius: 0px !important;
+    border: 1px solid #7C3A9E !important;
+}
+
+.input-newBook:focus {
+    background-color: #FBD4CB;
+    box-shadow: #59198e;
+}
+
+.input-newBook:focus {
+    border-color: #59198e;
+    box-shadow: 0 0 0 0.1rem rgba(89, 25, 142, 0.589);
+}
+
+.btn-newBook {
+    background-color: #59198e;
+    border: #59198e;
+    padding: 7px;
+}
+
+.btn-newBook:hover {
+    background-color: #59198e;
+    opacity: 80%;
+}
+
+.btn-newBook:disabled {
+    background-color: #59198e;
+    opacity: 60%;
+}

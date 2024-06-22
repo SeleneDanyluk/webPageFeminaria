@@ -11,6 +11,7 @@ import CreateUser from "./components/createUser/CreateUser.jsx";
 import UserContext, { UserProvider } from "./context/userContext"
 import Login from "./components/login/Login"
 import Cart from "./components/cart/Cart";
+import NewBook from "./components/newBook/NewBook.jsx";
 
 function App() {
   const context = useContext(UserContext)
@@ -20,7 +21,7 @@ function App() {
       path: "/",
       element: (
         <Layout>
-          <Dashboard></Dashboard>
+          <NewBook></NewBook>
         </Layout>
       ),
     },
