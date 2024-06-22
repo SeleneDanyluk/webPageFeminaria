@@ -6,6 +6,8 @@
 }
 .input-login:focus{
     background-color: #FBD4CB;
+    border-color: #59198e;
+    box-shadow: 0 0 0 0.1rem rgba(89, 25, 142, 0.589);
 }
 .btn-login{
     text-decoration: none;
@@ -18,4 +20,8 @@
 .btn-login:hover{
     color: #7C3A9E;
     opacity: 80%;
+}
+.btn-login:disabled {
+    color: #7C3A9E;
+    opacity: 60%;
 }

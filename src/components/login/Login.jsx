@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import './Login.css'
 import { getUser } from '../../auth/token'
@@ -10,14 +10,18 @@ import { useAuth } from '../../services/authentication/AuthenticationContext';
 const Login = () => {
     const [usernameEntered, setUsernameEntered] = useState('');
     const [passwordEntered, setPasswordEntered] = useState('');
+    const [formValid, setFormValid] = useState(false)
+
+    const usernameRef = useRef(null)
+
     const { login } = useAuth();
 
-    const {userType, setUserType} = useContext(UserContext)
+    const { userType, setUserType } = useContext(UserContext)
 
     const {sub, setUserId} = useContext(UserContext)
 
     const navigate = useNavigate();
-    
+
     const handleUsernameEntered = (e) => {
         setUsernameEntered(e.target.value)
     };
@@ -26,29 +30,46 @@ const Login = () => {
         setPasswordEntered(e.target.value)
     };
 
+    useEffect(() => {
+        usernameRef.current.focus()
+    }, [])
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setFormValid(
+                usernameEntered !== "" &&
+                passwordEntered !== ""
+            );
+        }, 500);
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [usernameEntered, passwordEntered])
+
 
     const handleLogin = async () => {
         const {role, sub} = await getUser(usernameEntered, passwordEntered)
         console.log(sub)
         setUserId(sub)
         window.localStorage.setItem("sub", sub)
+        const { role } = await getUser(usernameEntered, passwordEntered)
         console.log(role)
-        if(role) alert("ingreso ok")
+        if (role) alert("ingreso ok")
         else alert("error al ingresar")
-        
+
         switch (role) {
             case "admin": {
                 setUserType(1)
                 window.localStorage.setItem("type", 1)
             }
-            break;
+                break;
             case "superAdmin": {
                 setUserType(2)
                 window.localStorage.setItem("type", 2)
             }
-            break;
+                break;
             default: setUserType(0)
-            break;
+                break;
         }
     }
 
@@ -83,6 +104,7 @@ const Login = () => {
                                 type="text"
                                 onChange={handleUsernameEntered}
                                 value={usernameEntered}
+                                ref={usernameRef}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="id-title">
@@ -94,7 +116,7 @@ const Login = () => {
                                 value={passwordEntered}
                             />
                         </Form.Group>
-                        <Button onClick={handleLogin} variant='link' className='btn-login'>Acceder</Button>
+                        <Button disabled={!formValid} onClick={handleLogin} variant='link' className='btn-login'>Acceder</Button>
 
                     </Col>
                 </Row>

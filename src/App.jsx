@@ -12,6 +12,7 @@ import Users from "./components/users/Users";
 import UserContext, { UserProvider } from "./context/userContext"
 import Login from "./components/login/Login"
 import Cart from "./components/cart/Cart";
+import NewBook from "./components/newBook/NewBook.jsx";
 
 
 function App() {
@@ -81,6 +82,14 @@ function App() {
           <CreateUser></CreateUser>
         </Layout>
       ),
+    },
+    {
+      path: "/newbook",
+      element: (
+        <Layout>
+          <NewBook></NewBook>
+        </Layout>
+        ),
     },
     {
       path: "/usuarios",
