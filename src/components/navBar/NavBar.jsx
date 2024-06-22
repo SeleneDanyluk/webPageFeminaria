@@ -42,6 +42,10 @@ const NavBar = () => {
                                 userType == 2 && <Nav.Link className='beige-claro'onClick={handleClick} to='/createadmin'>Crear Admin</Nav.Link>
 
                             }
+                            {
+                                userType == 2 && <Nav.Link className='beige-claro'onClick={handleClick} to='/usuarios'>Usuarios</Nav.Link>
+
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

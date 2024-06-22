@@ -7,11 +7,13 @@ import Contact from './components/contact/Contact';
 import Books from "./components/books/Books";
 import { useState, useContext } from "react";
 import SignIn from "./components/signin/SignIn";
-import CreateUser from "./components/createUser/CreateUser.jsx";
+import CreateUser from "./components/createUser/CreateUser";
+import Users from "./components/users/Users";
 import UserContext, { UserProvider } from "./context/userContext"
 import Login from "./components/login/Login"
 import Cart from "./components/cart/Cart";
 import NewBook from "./components/newBook/NewBook.jsx";
+
 
 function App() {
   const context = useContext(UserContext)
@@ -88,6 +90,14 @@ function App() {
           <NewBook></NewBook>
         </Layout>
         ),
+    },
+    {
+      path: "/usuarios",
+      element: (
+        <Layout>
+          <Users />
+        </Layout>
+      ),
     },
   ]);
 
