@@ -8,6 +8,7 @@ import Books from "./components/books/Books";
 import { useState } from "react";
 import SignIn from "./components/signin/SignIn";
 import Login from "./components/login/Login"
+import Cart from "./components/cart/Cart";
 
 function App() {
   const router = createBrowserRouter([
@@ -56,6 +57,14 @@ function App() {
       element: (
         <Layout>
           <Login></Login>
+        </Layout>
+      ),
+    },
+    {
+      path: "/cart",
+      element: (
+        <Layout>
+          <Cart></Cart>
         </Layout>
       ),
     },

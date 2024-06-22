@@ -1,0 +1,10 @@
+.btn-cart {
+    background-color: #59198e;
+    border: #59198e;
+    padding: 7px;
+}
+
+.btn-cart:hover {
+    background-color: #59198e;
+    opacity: 80%;
+}
