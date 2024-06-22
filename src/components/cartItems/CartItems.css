@@ -7,6 +7,8 @@
 }
 .form-check-input:checked{
     background-color: #7C3A9E;
+    border-color: #59198e;
+    box-shadow: 0 0 0 0.1rem rgba(89, 25, 142, 0.589);
 }
 .btn-item{
     text-decoration: none;
