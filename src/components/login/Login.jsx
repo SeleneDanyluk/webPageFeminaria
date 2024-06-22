@@ -18,6 +18,8 @@ const Login = () => {
 
     const { userType, setUserType } = useContext(UserContext)
 
+    const {sub, setUserId} = useContext(UserContext)
+
     const navigate = useNavigate();
 
     const handleUsernameEntered = (e) => {
@@ -46,6 +48,10 @@ const Login = () => {
 
 
     const handleLogin = async () => {
+        const {role, sub} = await getUser(usernameEntered, passwordEntered)
+        console.log(sub)
+        setUserId(sub)
+        window.localStorage.setItem("sub", sub)
         const { role } = await getUser(usernameEntered, passwordEntered)
         console.log(role)
         if (role) alert("ingreso ok")
