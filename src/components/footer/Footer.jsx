@@ -35,17 +35,17 @@ const Footer = () => {
                         <Col>
                             <Nav defaultActiveKey="/home" className="flex-column">
                                 <h6>Mi cuenta</h6>
-                                <Nav.Link href="/home">Ingresar</Nav.Link>
-                                <Nav.Link eventKey="link-1">Carrito</Nav.Link>
+                                <Nav.Link onClick={handleClick} to='/login'>Ingresar</Nav.Link>
+                                <Nav.Link onClick={handleClick} to='/cart'>Carrito</Nav.Link>
                             </Nav>
                         </Col>
                         <Col>
-                            <Nav defaultActiveKey="/home" className="flex-column">
+                            <Nav defaultActiveKey="/" className="flex-column">
                                 <h6>Contacto</h6>
                                 <Nav.Item>Email: feminaria@gmail.com</Nav.Item>
                                 <Nav.Item>Teléfono: 341-556985</Nav.Item>
-                                <Nav.Link href="/home">Librerías</Nav.Link>
-                                <Nav.Link eventKey="link-1">Redes</Nav.Link>
+                                <Nav.Link href="/">Librerías</Nav.Link>
+                                <Nav.Link href="/contacto">Redes</Nav.Link>
                             </Nav>
                         </Col>
                     </Row>
@@ -55,4 +55,4 @@ const Footer = () => {
     );
 };
 
-export default Footer
+export default Footer;

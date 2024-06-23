@@ -4,35 +4,31 @@ import './Login.css'
 import { getUser } from '../../auth/token'
 import { useNavigate } from 'react-router-dom'
 import UserContext from '../../context/userContext'
-import { useAuth } from '../../services/authentication/AuthenticationContext';
 
 
 const Login = () => {
     const [usernameEntered, setUsernameEntered] = useState('');
     const [passwordEntered, setPasswordEntered] = useState('');
-    const [formValid, setFormValid] = useState(false)
+    const [formValid, setFormValid] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const usernameRef = useRef(null)
+    const usernameRef = useRef(null);
 
-    const { login } = useAuth();
-
-    const { userType, setUserType } = useContext(UserContext)
-
-    const {sub, setUserId} = useContext(UserContext)
+    const { userType, setUserType, sub, setUserId, setIsLoggedIn, isLoggedIn } = useContext(UserContext);
 
     const navigate = useNavigate();
 
     const handleUsernameEntered = (e) => {
-        setUsernameEntered(e.target.value)
+        setUsernameEntered(e.target.value);
     };
 
     const handlePasswordEntered = (e) => {
-        setPasswordEntered(e.target.value)
+        setPasswordEntered(e.target.value);
     };
 
     useEffect(() => {
-        usernameRef.current.focus()
-    }, [])
+        usernameRef.current.focus();
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -44,38 +40,52 @@ const Login = () => {
         return () => {
             clearTimeout(timer);
         };
-    }, [usernameEntered, passwordEntered])
-
+    }, [usernameEntered, passwordEntered]);
 
     const handleLogin = async () => {
-        const {role, sub} = await getUser(usernameEntered, passwordEntered)
-        console.log(sub)
-        setUserId(sub)
-        window.localStorage.setItem("sub", sub)
-        const { role } = await getUser(usernameEntered, passwordEntered)
-        console.log(role)
-        if (role) alert("ingreso ok")
-        else alert("error al ingresar")
-
-        switch (role) {
-            case "admin": {
-                setUserType(1)
-                window.localStorage.setItem("type", 1)
-            }
-                break;
-            case "superAdmin": {
-                setUserType(2)
-                window.localStorage.setItem("type", 2)
-            }
-                break;
-            default: setUserType(0)
-                break;
+        try {
+            const { role, sub } = await getUser(usernameEntered, passwordEntered);
+            switch (role) {
+                case "admin":
+                    setUserType(1);
+                    window.localStorage.setItem("type", 1);
+                    setUserId(sub);
+                    window.localStorage.setItem("sub", sub);
+                    break;
+                case "superAdmin":
+                    setUserType(2);
+                    window.localStorage.setItem("type", 2);
+                    setUserId(sub);
+                    window.localStorage.setItem("sub", sub);
+                    break;
+                default:
+                    setUserType(0);
+                    window.localStorage.setItem("type", 0);
+                    setUserId(sub);
+                    window.localStorage.setItem("sub", sub);
+                    break;
+            };
+            setErrorMessage('');
+            alert("Ingreso exitoso");
+            navigate('/');
+            setIsLoggedIn(true);
+            console.log(isLoggedIn);
+        } catch (error) {
+            window.localStorage.removeItem("type");
+            window.localStorage.removeItem("sub");
+            setUserType(null);
+            setUserId(null);
+            setIsLoggedIn(false);
+            setPasswordEntered("");
+            setUsernameEntered("")
+            alert('Error en las credenciales. Por favor, inténtelo de nuevo.');
+            console.error(error);
         }
-    }
+    };
 
     const handleRegister = () => {
-        navigate('/SignIn')
-    }
+        navigate('/SignIn');
+    };
 
     return (
         <>
@@ -97,7 +107,7 @@ const Login = () => {
                     </Col>
                     <Col md={6}>
                         <h3>Ingresar</h3>
-                        <Form.Group className="mb-3" controlId="id-title">
+                        <Form.Group className="mb-3">
                             <Form.Label>Dirección de Mail</Form.Label>
                             <Form.Control
                                 className='form-control-sm input-login'
@@ -107,17 +117,16 @@ const Login = () => {
                                 ref={usernameRef}
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="id-title">
+                        <Form.Group className="mb-3">
                             <Form.Label>Contraseña</Form.Label>
                             <Form.Control
                                 className='form-control-sm input-login'
-                                type="text"
+                                type="password"
                                 onChange={handlePasswordEntered}
                                 value={passwordEntered}
                             />
                         </Form.Group>
                         <Button disabled={!formValid} onClick={handleLogin} variant='link' className='btn-login'>Acceder</Button>
-
                     </Col>
                 </Row>
             </Container>

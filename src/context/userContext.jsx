@@ -1,24 +1,43 @@
-import {createContext, useState} from 'react' 
+import { createContext, useState, useEffect } from 'react'
 
-const type = window.localStorage.getItem("type")
-const sub = window.localStorage.getItem("sub"); 
+const userType = window.localStorage.getItem("type")
+const sub = window.localStorage.getItem("sub");
 
 const UserContext = createContext({
     userType: Number(window.localStorage.getItem("type")),
-    setUserType: () => {},
+    setUserType: () => { },
     sub: Number(window.localStorage.getItem("sub")),
-    setUserId: () => {}
-})
+    setUserId: () => { },
+    isLoggedIn: false,
+    setIsLoggedIn: () => { },
+});
 
-
-export const UserProvider = ({children}) => {
+export const UserProvider = ({ children }) => {
     const [userType, setUserType] = useState(window.localStorage.getItem("type"))
     const [sub, setUserId] = useState(window.localStorage.getItem("sub"))
-    return (
-    <UserContext.Provider value={{userType, setUserType, sub, setUserId}}>
-        {children}
-    </UserContext.Provider>
-    )
-}
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-export default UserContext
+    const logout = () => {
+        window.localStorage.removeItem("type");
+        window.localStorage.removeItem("sub");
+        setUserType(null);
+        setUserId(null);
+        setIsLoggedIn(false);
+    };
+
+    useEffect(() => {
+        if (sub) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, [userType, sub]);
+
+    return (
+        <UserContext.Provider value={{ userType, setUserType, sub, setUserId, isLoggedIn, setIsLoggedIn, logout }}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+export default UserContext;

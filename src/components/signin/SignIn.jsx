@@ -1,110 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './SignIn.css';
+import { useNavigate } from "react-router-dom";
 
 const SignInForm = () => {
     const [formData, setFormData] = useState({
-        nombre: '',
-        apellido: '',
-        mail: '',
-        telefono: '',
-        tarjeta: '',
-        direccion: '',
-        dni: '',
-        contrasena1: '',
-        contrasena2: '',
+        name: '',
+        email: '',
+        password: '',
+        userType: 0
     });
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
+    const name = useRef();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+        if (!formData.name || !formData.email || !formData.password) {
+            setErrorMessage('Todos los campos son obligatorios. Por favor, complete todos los campos.');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 10000);
+            return;
+        }
+        try {
+            const response = await fetch('https://localhost:7069/api/User', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message);                
+            }
+
+            const data = await response.json();
+            console.log('Registration successful', data);
+            setFormData({
+                name: '',
+                email: '',
+                password: '',
+                userType: 0
+            });
+            // modal para avisar del registro exitoso y que inicie sesion
+            navigate('/login');
+        } catch (error) {
+            setFormData({
+                name: '',
+                email: '',
+                password: '',
+                userType: 0
+            });
+            setErrorMessage(error.message);
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 5000);
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="sign-in-form">
-            <h2>Tus datos</h2>
-            <div>
-                <input
-                    type="text"
-                    name="nombre"
-                    placeholder="Nombre"
-                    value={formData.nombre}
-                    onChange={handleChange}
-                />
-                <input
-                    type="text"
-                    name="direccion"
-                    placeholder="Dirección"
-                    value={formData.direccion}
-                    onChange={handleChange}
-                />
-            </div>
-            <div>
-                <input
-                    type="text"
-                    name="apellido"
-                    placeholder="Apellido"
-                    value={formData.apellido}
-                    onChange={handleChange}
-                />
-                <input
-                    type="text"
-                    name="dni"
-                    placeholder="Dni"
-                    value={formData.dni}
-                    onChange={handleChange}
-                />
-            </div>
-            <div>
-                <input
-                    type="email"
-                    name="mail"
-                    placeholder="Mail"
-                    value={formData.mail}
-                    onChange={handleChange}
-                />
-                <input
-                    type="password"
-                    name="contrasena1"
-                    placeholder="Contraseña"
-                    value={formData.contrasena1}
-                    onChange={handleChange}
-                />
-            </div>
-            <div>
-                <input
-                    type="tel"
-                    name="telefono"
-                    placeholder="Teléfono"
-                    value={formData.telefono}
-                    onChange={handleChange}
-                />
-                <input
-                    type="password"
-                    name="contrasena2"
-                    placeholder="Repetir contraseña"
-                    value={formData.contrasena2}
-                    onChange={handleChange}
-                />
-            </div>
-            <div>
-                <input
-                    type="text"
-                    name="tarjeta"
-                    placeholder="Ingresar tarjeta (opcional)"
-                    value={formData.tarjeta}
-                    onChange={handleChange}
-                />
-            </div>
-            <button type="submit">Enviar</button>
-        </form>
+        <div className='form-container'>
+            <form onSubmit={handleSubmit} className="sign-in-form">
+                <h2>REGISTRATE EN FEMINARIA</h2>
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
+                <div>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Nombre"
+                        value={formData.name}
+                        onChange={handleChange}
+                    />
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Contraseña"
+                        value={formData.password}
+                        onChange={handleChange}
+                    />
+                </div>
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
     );
 };
 

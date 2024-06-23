@@ -9,22 +9,13 @@ const CartItems = ({ id, title, author, imageUrl, description, price, isMarked, 
         <>
             <Row className={!lastItem ? 'border-button mb-3 pb-3' : ''}>
                 <Col xs={3}>
-                    <Form.Check
-                        inline
-                        name="checkboxCartItems"
-                        type={'checkbox'}
-                        value={isMarked}
-                        className='d-flex justify-content-end'
-                    />
-                </Col>
-                <Col xs={3}>
                     <Image src={imageUrl} fluid />
                 </Col>
                 <Col xs={3}>
                     <h2>{title}</h2>
                     <h4>{author}</h4>
                     <p>{description}</p>
-                    <Button variant='link' className='btn-item' onClick={() => onDeleteItem(id)}>Eliminar</Button>
+                    <Button variant='link' className='btn-item' onClick={() => onDeleteItem(title)}>Eliminar</Button>
                 </Col>
                 <Col xs={3}>
                     <h2 className='text-end'>AR$ {price}</h2>
@@ -41,7 +32,8 @@ CartItems.propTypes = {
     description: PropTypes.string,
     price: PropTypes.number,
     isMarked: PropTypes.bool,
-    lastItem: PropTypes.bool
+    lastItem: PropTypes.bool,
+    onDeleteItem: PropTypes.func
 };
 
 
