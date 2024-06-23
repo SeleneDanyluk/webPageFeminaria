@@ -1,15 +1,23 @@
 import React, {useContext, useState} from 'react'
 import PropTypes from "prop-types";
-import { Card, Button, FormControl } from "react-bootstrap";
+import { Card, Button, FormControl} from "react-bootstrap";
 import './Book.css';
 import UserContext from "../../context/userContext"
+import ModalPage from '../modalPage/ModalPage'
+
 
 const Book = ({ title, author, imageUrl, description, price, id, onDelete }) => {
     const {userType} = useContext(UserContext)
     const [isEditing, setIsEditing] = useState(false)
     const [newPrice, setNewPrice] = useState(price)
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const [showModal, setShowModal] = useState(false);
+
 
     console.log(userType)
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
     const handleAddCart = () => {
         const cartItems = localStorage.getItem("cartItem")
@@ -41,11 +49,16 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete }) => 
             if (!response.ok) {
                 throw new Error("Error al eliminar el libro");
             }
-            alert("Libro eliminado correctamente");
-            onDelete(id)
+            setTitleModal('¡Su libro fue eliminado exitosamente!')
+            setBodyModal('')
+            handleShow()
+            onDelete(id);
         })
         .catch(error => {
             console.error("Error:", error);
+            setToastMessage("Error al eliminar el libro");
+            setToastVariant("danger");
+            setShowToast(true);
         });
     };
 
@@ -66,12 +79,17 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete }) => 
             if (!response.ok) {
                 throw new Error("Error al actualizar el libro");
             }
-            alert("Precio actualizado correctamente");
+            setTitleModal('¡Precio actualizado correctamente!')
+            setBodyModal('')
+            handleShow()
             setIsEditing(false);
             
         })
         .catch(error => {
             console.error("Error:", error);
+            setToastMessage("Error al actualizar el precio");
+            setToastVariant("danger");
+            setShowToast(true);
         });
     };
 
@@ -111,8 +129,15 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete }) => 
                         }
                     </div>
                 </Card.Body>
+                <ModalPage 
+                title={titleModal}
+                body={bodyModal}
+                show={showModal}
+                onClose={handleClose}
+                />
             </Card>
         </div>
+        
     );
 };
 
