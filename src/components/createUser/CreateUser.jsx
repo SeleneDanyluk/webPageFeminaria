@@ -44,7 +44,7 @@ const CreateUser = () => {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error al crear el admin');
+                throw new Error('El email ingresado ya existe en una cuenta');
             }
             return response.json();
         })
@@ -54,7 +54,7 @@ const CreateUser = () => {
             handleShow()
         })
         .catch(error => {
-            setTitleModal('Error');
+            setTitleModal('Email inválido');
             setBodyModal(error.message);
             handleShow();
         });
