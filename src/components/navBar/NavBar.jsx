@@ -46,6 +46,10 @@ const NavBar = () => {
                                 userType == 2 && <Nav.Link className='beige-claro'onClick={handleClick} to='/usuarios'>Usuarios</Nav.Link>
 
                             }
+                            {
+                                userType == 1 && <Nav.Link className='beige-claro'onClick={handleClick} to='/newbook'>Nuevo libro</Nav.Link>
+
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
