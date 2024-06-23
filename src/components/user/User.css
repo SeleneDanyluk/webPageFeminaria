@@ -1,9 +1,35 @@
+* {
+    box-sizing: border-box;
+}
+
 .user-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
     margin: 10px 0;
-    padding: 10px;
+    padding: 15px;
     border-bottom: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.button-group {
+    display: flex;
+    gap: 5px;
 }
 
 .user-button {
-    margin-left: 10px;
+    padding: 10px 15px;
+    background-color: #7C3A9E;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px; /* Tamaño de fuente uniforme */
+    white-space: nowrap; /* Evita que el texto se desborde */
+}
+
+.user-button:hover {
+    background-color: #5A2A74;
 }

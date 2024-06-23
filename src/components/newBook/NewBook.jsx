@@ -8,6 +8,7 @@ const NewBook = () => {
   const [stockEntered, setStockEntered] = useState(0)
   const [priceEntered, setPriceEntered] = useState(0)
   const [descriptionEntered, setDescriptionEntered] = useState('')
+  const [imgEntered, setImgEntered] = useState('')
   const [formValid, setFormValid] = useState(false)
 
   const titleRef = useRef(null)
@@ -27,6 +28,9 @@ const NewBook = () => {
   const handleDescriptionEntered = (e) => {
     setDescriptionEntered(e.target.value)
   }
+  const handleImgEntered = (e) => {
+    setImgEntered(e.target.value)   
+  }
 
   useEffect(() => {
     titleRef.current.focus()
@@ -39,13 +43,14 @@ const NewBook = () => {
         titleEntered !== "" &&
         authorEntered !== "" &&
         stockEntered !== 0 &&
-        priceEntered !== 0
+        priceEntered !== 0 &&
+        imgEntered !== ""
       );
     }, 500);
     return () => {
       clearTimeout(timer);
     };
-  }, [titleEntered, authorEntered, stockEntered, priceEntered])
+  }, [titleEntered, authorEntered, stockEntered, priceEntered, imgEntered])
 
   return (
     <>
@@ -96,6 +101,16 @@ const NewBook = () => {
                 />
               </Form.Group>
             </Col>
+          </Row>
+          <Row className='px-5'>
+            <Form.Group className="mb-3">
+              <Form.Label>Imagen URL</Form.Label>
+              <Form.Control
+                className='form-control-sm input-newBook'
+                value={imgEntered}
+                onChange={handleImgEntered}
+              />
+            </Form.Group>
           </Row>
           <Row className='px-5'>
             <Form.Group className="mb-3">
