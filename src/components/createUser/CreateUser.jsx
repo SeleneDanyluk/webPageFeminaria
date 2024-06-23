@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import './createUser.css';
+import ModalPage from '../modalPage/ModalPage'
 
 const CreateUser = () => {
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const [showModal, setShowModal] = useState(false);
+
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
+
     const [formData, setFormData] = useState({
         nombre: '',
         mail: '',
         contrasena1: '',
     });
+
+    const [message, setMessage] = useState(null);
+    const [messageType, setMessageType] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,7 +29,38 @@ const CreateUser = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        const userData = {
+            name: formData.nombre,
+            email: formData.mail,
+            password: formData.contrasena1,
+            userType: 1
+    };
+
+    
+
+    fetch('https://localhost:7069/api/User', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al crear el admin');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setTitleModal('¡Admin creado éxitosamente!')
+            setBodyModal('')
+            handleShow()
+        })
+        .catch(error => {
+            setTitleModal('Error');
+            setBodyModal(error.message);
+            handleShow();
+        });
     };
 
     return (
@@ -54,6 +96,12 @@ const CreateUser = () => {
             <div className="button-group">
                 <button type="submit">Enviar</button>
             </div>
+            <ModalPage 
+                title={titleModal}
+                body={bodyModal}
+                show={showModal}
+                onClose={handleClose}
+            />
         </form>
     );
 };
