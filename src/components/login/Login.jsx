@@ -52,7 +52,6 @@ const Login = () => {
         console.log(sub)
         setUserId(sub)
         window.localStorage.setItem("sub", sub)
-        const { role } = await getUser(usernameEntered, passwordEntered)
         console.log(role)
         if (role) alert("ingreso ok")
         else alert("error al ingresar")
