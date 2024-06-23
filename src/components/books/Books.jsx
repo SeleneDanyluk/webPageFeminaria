@@ -46,6 +46,10 @@ const Books = () => {
         setBooks(prevData);
     };
 
+    const handleBookDelete = (bookId) => {
+        setBooks(books.filter(book => book.id !== bookId));
+    };
+
     return (
         <div>
             <div className='search-container'>
@@ -56,12 +60,13 @@ const Books = () => {
                 {books.length > 0 ? (
                     books.map((book) => (
                         <Book
-                            key={book.id}
+                            id={book.id}
                             title={book.title}
                             author={book.author}
                             imageUrl={'https://res.cloudinary.com/di0y6v99p/image/upload/v1718575669/images_secufd.jpg'}
                             description={book.description}
                             price={book.price}
+                            onDelete={handleBookDelete}
                         ></Book>
                     ))
                 ) : (
