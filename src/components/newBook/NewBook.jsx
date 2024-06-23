@@ -28,7 +28,7 @@ const NewBook = () => {
   const handleDescriptionEntered = (e) => {
     setDescriptionEntered(e.target.value)
   }
-  const handleImgEntered = () => {
+  const handleImgEntered = (e) => {
     setImgEntered(e.target.value)   
   }
 
