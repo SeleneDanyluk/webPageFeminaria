@@ -23,7 +23,7 @@ function App() {
       path: "/",
       element: (
         <Layout>
-          <NewBook></NewBook>
+          <Dashboard></Dashboard>
         </Layout>
       ),
     },
