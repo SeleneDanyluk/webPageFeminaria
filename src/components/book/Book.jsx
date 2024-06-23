@@ -1,12 +1,23 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import PropTypes from "prop-types";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, FormControl} from "react-bootstrap";
 import './Book.css';
 import UserContext from "../../context/userContext"
+import ModalPage from '../modalPage/ModalPage'
 
-const Book = ({ title, author, imageUrl, description, price, id }) => {
+
+const Book = ({ title, author, imageUrl, description, price, id, onDelete }) => {
     const {userType} = useContext(UserContext)
+    const [isEditing, setIsEditing] = useState(false)
+    const [newPrice, setNewPrice] = useState(price)
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const [showModal, setShowModal] = useState(false);
+
+
     console.log(userType)
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
     const handleAddCart = () => {
         const cartItems = localStorage.getItem("cartItem")
@@ -27,6 +38,61 @@ const Book = ({ title, author, imageUrl, description, price, id }) => {
         }
          
     }
+
+    const handleDelete = () => {
+        console.log(id)
+        fetch(`https://localhost:7069/api/Book?id=${id}`, {
+            method: "DELETE",
+            mode: "cors"
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al eliminar el libro");
+            }
+            setTitleModal('¡Su libro fue eliminado exitosamente!')
+            setBodyModal('')
+            handleShow()
+            onDelete(id);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            setToastMessage("Error al eliminar el libro");
+            setToastVariant("danger");
+            setShowToast(true);
+        });
+    };
+
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleSave = () => {
+        console.log(JSON.stringify({ title }))
+        fetch(`https://localhost:7069/api/Book?title=${title}&price=${newPrice}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            mode: "cors",
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al actualizar el libro");
+            }
+            setTitleModal('¡Precio actualizado correctamente!')
+            setBodyModal('')
+            handleShow()
+            setIsEditing(false);
+            
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            setToastMessage("Error al actualizar el precio");
+            setToastVariant("danger");
+            setShowToast(true);
+        });
+    };
+
     return (
         <div className='book-container'>
             <Card style={{ width: '18rem' }} key={id}>
@@ -35,7 +101,18 @@ const Book = ({ title, author, imageUrl, description, price, id }) => {
                     <div className='book-data-container'>
                     <Card.Title>{title}</Card.Title>
                     <Card.Subtitle>{author}</Card.Subtitle>
-                    <Card.Subtitle>${price}</Card.Subtitle>
+                    {isEditing ? (
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <FormControl style={{ width: '8rem' }}
+                                type="number" 
+                                value={newPrice} 
+                                onChange={(e) => setNewPrice(e.target.value)} 
+                            />
+                            <Button variant="success" onClick={handleSave}>Guardar</Button>
+                        </div>
+                        ) : (
+                            <Card.Subtitle>${newPrice}</Card.Subtitle>
+                        )}
                     </div>
                     <Card.Text className='book-description'>
                         {description}
@@ -46,14 +123,21 @@ const Book = ({ title, author, imageUrl, description, price, id }) => {
 
                             userType == 2 || userType == 1 && 
                             <>
-                            <Button>Editar</Button>
-                            <Button>Eliminar</Button>
+                            <Button variant="primary" onClick={handleEdit}>Editar</Button>
+                            <Button variant="danger" onClick={handleDelete}>Eliminar</Button> 
                             </>
                         }
                     </div>
                 </Card.Body>
+                <ModalPage 
+                title={titleModal}
+                body={bodyModal}
+                show={showModal}
+                onClose={handleClose}
+                />
             </Card>
         </div>
+        
     );
 };
 
@@ -64,6 +148,7 @@ Book.PropTypes = {
     description: PropTypes.string,
     price: PropTypes.number,
     id: PropTypes.number,
+    onDelete: PropTypes.func,
 };
 
 export default Book;
