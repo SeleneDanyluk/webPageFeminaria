@@ -5,6 +5,7 @@ import { getUser } from '../../auth/token'
 import { useNavigate } from 'react-router-dom'
 import UserContext from '../../context/userContext'
 import { useAuth } from '../../services/authentication/AuthenticationContext';
+import ModalPage from '../modalPage/ModalPage'
 
 
 const Login = () => {
