@@ -20,24 +20,23 @@ const User = ({ id, name, password, onModify, onDelete, sub  }) => {
     return (
         <div className="user-container">
             <p>Usuario: {name}</p>
-            {isEditing ? (
-                <>
-                    <FormControl
-                        type="password"
-                        placeholder="Nueva Contraseña"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        className="user-input"
-                    />
-                    <Button variant="secondary" className="user-button" onClick={handleSaveClick}>Guardar</Button>
-                </>
-            ) : (
-                <Button variant="secondary" className="user-button" onClick={handleModifyClick}>Modificar</Button>
-            )}
-            <Button variant="secondary" className="user-button" onClick={() => onDelete(id)}>Eliminar</Button>
-            {sub === id && (
-                <Button variant="primary" className="user-button">Acción Especial</Button>
-            )}
+            <div className="button-group">
+                {isEditing ? (
+                    <>
+                        <FormControl
+                            type="password"
+                            placeholder="Nueva Contraseña"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            className="user-input"
+                        />
+                        <Button variant="secondary" className="user-button" onClick={handleSaveClick}>Guardar</Button>
+                    </>
+                ) : (
+                    <Button variant="secondary" className="user-button" onClick={handleModifyClick}>Modificar</Button>
+                )}
+                <Button variant="secondary" className="user-button" onClick={() => onDelete(id)}>Eliminar</Button>
+            </div>
         </div>
     );
 };
