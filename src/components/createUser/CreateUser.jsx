@@ -16,9 +16,6 @@ const CreateUser = () => {
         contrasena1: '',
     });
 
-    const [message, setMessage] = useState(null);
-    const [messageType, setMessageType] = useState(null);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
