@@ -10,7 +10,14 @@ import { useAuth } from '../../services/authentication/AuthenticationContext';
 const Login = () => {
     const [usernameEntered, setUsernameEntered] = useState('');
     const [passwordEntered, setPasswordEntered] = useState('');
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const [showModal, setShowModal] = useState(false);
     const [formValid, setFormValid] = useState(false)
+
+    
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
     const usernameRef = useRef(null)
 
@@ -18,7 +25,7 @@ const Login = () => {
 
     const { userType, setUserType } = useContext(UserContext)
 
-    const {sub, setUserId} = useContext(UserContext)
+    const { sub, setUserId } = useContext(UserContext)
 
     const navigate = useNavigate();
 
@@ -48,13 +55,18 @@ const Login = () => {
 
 
     const handleLogin = async () => {
-        const {role, sub} = await getUser(usernameEntered, passwordEntered)
+        const { role, sub } = await getUser(usernameEntered, passwordEntered)
         console.log(sub)
         setUserId(sub)
         window.localStorage.setItem("sub", sub)
         console.log(role)
-        if (role) alert("ingreso ok")
-        else alert("error al ingresar")
+        if (role) {
+            setTitleModal('Ingreso exitoso !')
+            handleShow()
+        } else {
+            setTitleModal('Error al ingresar')
+            handleShow()
+        }
 
         switch (role) {
             case "admin": {
@@ -119,6 +131,12 @@ const Login = () => {
 
                     </Col>
                 </Row>
+                <ModalPage 
+                    title={titleModal}
+                    body={bodyModal}
+                    show={showModal}
+                    onClose={handleClose}
+                />
             </Container>
         </>
     );

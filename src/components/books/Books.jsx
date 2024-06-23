@@ -12,6 +12,12 @@ const Books = () => {
   
     const [prevData, setPrevData] = useState([]);
     const [books, setBooks] = useState([]);
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const [showModal, setShowModal] = useState(false);
+
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
     useEffect(() => {
         fetch("https://localhost:7069/api/Book", {
@@ -20,6 +26,9 @@ const Books = () => {
         })
             .then((response) => {
                 if (!response.ok) {
+                    setTitleModal('Error')
+                    setBodyModal('Error al obtener los libros')
+                    handleShow()
                     throw new Error("Error al obtener los libros");
                 }
                 return response.json();
@@ -29,6 +38,9 @@ const Books = () => {
             })
             .catch((error) => {
                 console.error("Error:", error);
+                setTitleModal('Error')
+                setBodyModal(error)
+                handleShow()
             });
     }, []);
 
@@ -68,6 +80,12 @@ const Books = () => {
                     <p>NO HAY NADA PARA MOSTRAR</p>
                 )}
             </div>
+            <ModalPage 
+                    title={titleModal}
+                    body={bodyModal}
+                    show={showModal}
+                    onClose={handleClose}
+                />
         </div>
     );
 };
