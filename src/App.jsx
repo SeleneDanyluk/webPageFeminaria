@@ -13,6 +13,8 @@ import UserContext, { UserProvider } from "./context/userContext"
 import Login from "./components/login/Login"
 import Cart from "./components/cart/Cart";
 import NewBook from "./components/newBook/NewBook.jsx";
+import Protected from "./components/routes/protected/Protected.jsx";
+
 
 
 function App() {
@@ -71,11 +73,13 @@ function App() {
       path: "/cart",
       element: (
         <Layout>
-          <Cart></Cart>
+          <Protected>
+            <Cart></Cart>
+          </Protected>
         </Layout>
-        ),
+      ),
     },
-      {
+    {
       path: "/createadmin",
       element: (
         <Layout>
@@ -89,7 +93,7 @@ function App() {
         <Layout>
           <NewBook></NewBook>
         </Layout>
-        ),
+      ),
     },
     {
       path: "/usuarios",
@@ -104,12 +108,12 @@ function App() {
   return (
     <div>
       {
-      <UserProvider>
-        <RouterProvider router={router} />
-      </UserProvider>
+        <UserProvider>
+          <RouterProvider router={router} />
+        </UserProvider>
       }
     </div>
   );
 };
 
-export default App
+export default App;
