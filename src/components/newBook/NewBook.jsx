@@ -3,15 +3,24 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import './NewBook.css'
 
 const NewBook = () => {
-  const [titleEntered, setTitleEntered] = useState('')
-  const [authorEntered, setAuthorEntered] = useState('')
-  const [stockEntered, setStockEntered] = useState(0)
-  const [priceEntered, setPriceEntered] = useState(0)
-  const [descriptionEntered, setDescriptionEntered] = useState('')
-  const [imgEntered, setImgEntered] = useState('')
-  const [formValid, setFormValid] = useState(false)
+  const [titleEntered, setTitleEntered] = useState('');
+  const [authorEntered, setAuthorEntered] = useState('');
+  const [stockEntered, setStockEntered] = useState(0);
+  const [priceEntered, setPriceEntered] = useState(0);
+  const [descriptionEntered, setDescriptionEntered] = useState('');
+  const [imgEntered, setImgEntered] = useState('');
+  const [formValid, setFormValid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const titleRef = useRef(null);
 
-  const titleRef = useRef(null)
+  const handleChange = (setter) => (e) => {
+    setter(e.target.value);
+  };
+
+  useEffect(() => {
+    titleRef.current.focus();
+  }, []);
 
   const handleTitleEntered = (e) => {
     setTitleEntered(e.target.value)
@@ -29,33 +38,86 @@ const NewBook = () => {
     setDescriptionEntered(e.target.value)
   }
   const handleImgEntered = (e) => {
-    setImgEntered(e.target.value)   
+    setImgEntered(e.target.value)
   }
 
   useEffect(() => {
-    titleRef.current.focus()
-}, [])
-
-  useEffect(() => {
-
     const timer = setTimeout(() => {
       setFormValid(
-        titleEntered !== "" &&
-        authorEntered !== "" &&
-        stockEntered !== 0 &&
-        priceEntered !== 0 &&
-        imgEntered !== ""
+        titleEntered !== '' &&
+        authorEntered !== '' &&
+        stockEntered > 0 &&
+        priceEntered > 0 &&
+        imgEntered !== ''
       );
     }, 500);
     return () => {
       clearTimeout(timer);
     };
-  }, [titleEntered, authorEntered, stockEntered, priceEntered, imgEntered])
+  }, [titleEntered, authorEntered, stockEntered, priceEntered, imgEntered]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formValid) {
+      setErrorMessage('Please fill in all required fields.');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 5000);
+      return;
+    }
+
+    const bookToAdd = {
+      title: titleEntered,
+      description: descriptionEntered,
+      author: authorEntered,
+      price: priceEntered,
+      stock: stockEntered,
+      imageUrl: imgEntered,
+    };
+
+    setIsLoading(true);
+    try {
+      const response = await fetch('https://localhost:7069/api/Book', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookToAdd),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to add book.');
+      }
+
+      const data = await response.json();
+      console.log('Book added successfully', data);
+
+      setTitleEntered('');
+      setAuthorEntered('');
+      setStockEntered(0);
+      setPriceEntered(0);
+      setDescriptionEntered('');
+      setImgEntered('');
+      setErrorMessage('Book added successfully!');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 5000);
+    } catch (error) {
+      setErrorMessage(error.message);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 5000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   return (
     <>
       <Container>
-        <Form className='py-3'>
+        <Form className='py-3' onSubmit={handleSubmit}>
           <Row className='d-flex justify-content-center'>
             <h2 className='w-25 text-center border-bottom pb-3'>Agregar Libro</h2>
           </Row>
@@ -132,7 +194,7 @@ const NewBook = () => {
         </Form>
       </Container>
     </>
-  )
-}
+  );
+};
 
 export default NewBook
