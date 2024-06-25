@@ -68,7 +68,7 @@ const Cart = () => {
             .catch((error) => {
                 console.error("Error:", error);
             });
-    }, []);
+    }, [items]);
 
     const handleCreateCart = () => {
         let itemsToAddCart = localStorage.getItem('cartItem');
