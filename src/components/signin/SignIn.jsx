@@ -1,8 +1,17 @@
 import React, { useState, useRef } from 'react';
 import './SignIn.css';
 import { useNavigate } from "react-router-dom";
+import ModalPage from '../modalPage/ModalPage'
+
 
 const SignInForm = () => {
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const [showModal, setShowModal] = useState(false);
+
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -34,6 +43,7 @@ const SignInForm = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
+                
             });
 
               if (!response.ok) {
@@ -42,15 +52,21 @@ const SignInForm = () => {
             }
 
             const data = await response.json();
-            console.log('Registration successful', data);
+            setTitleModal('¡Usuario creado éxitosamente!');
+            setBodyModal('');
+            handleShow();
+
+            setTimeout(() => {
+                navigate('/login');
+            }, 2500); 
+
             setFormData({
                 name: '',
                 email: '',
                 password: '',
                 userType: 0
             });
-            // modal para avisar del registro exitoso y que inicie sesion
-            navigate('/login');
+            
         } catch (error) {
             setFormData({
                 name: '',
@@ -94,6 +110,12 @@ const SignInForm = () => {
                     />
                 </div>
                 <button type="submit">Registrarse</button>
+                <ModalPage 
+                title={titleModal}
+                body={bodyModal}
+                show={showModal}
+                onClose={handleClose}
+                />
             </form>
         </div>
     );
