@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Book from '../book/Book';
 import './Books.css'
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import SearchBook from '../searchBook/SearchBook';
 import { Button } from 'react-bootstrap';
 import UserContext from "../../context/userContext"
 
 
 const Books = () => {
-    const {userType} = useContext(UserContext)
-  
+    const { userType } = useContext(UserContext);
+
+    const navigate = useNavigate();
+
     const [prevData, setPrevData] = useState([]);
     const [books, setBooks] = useState([]);
 
@@ -32,15 +35,15 @@ const Books = () => {
             });
     }, []);
 
-    const searchHandler = (onSearch) => {
+    const searchHandler = useCallback((onSearch) => {
         const filteredBooks = books.filter(
-          (book) =>
-            book.title.toLowerCase().includes(onSearch.toLowerCase()) ||
-            book.author.toLowerCase().includes(onSearch.toLowerCase())
+            (book) =>
+                book.title.toLowerCase().includes(onSearch.toLowerCase()) ||
+                book.author.toLowerCase().includes(onSearch.toLowerCase())
         );
         setPrevData(books);
         setBooks(filteredBooks);
-      };
+    });
 
     const cleanSearch = (e) => {
         setBooks(prevData);
@@ -53,8 +56,8 @@ const Books = () => {
     return (
         <div>
             <div className='search-container'>
-              <SearchBook onSearch={searchHandler}></SearchBook>
-              <Button className='outline-secondary search-button' onClick={cleanSearch}>Limpiar</Button>
+                <SearchBook onSearch={searchHandler}></SearchBook>
+                <Button className='outline-secondary search-button' onClick={cleanSearch}>Limpiar</Button>
             </div>
             <div className='books-container'>
                 {books.length > 0 ? (
@@ -70,7 +73,10 @@ const Books = () => {
                         ></Book>
                     ))
                 ) : (
-                    <p>NO HAY NADA PARA MOSTRAR</p>
+                    <div>
+                        <p>Error al obtener los libros de la API</p>
+                        <Button type='dark' onClick={() => navigate('/')}>Volver al inicio</Button>
+                    </div>
                 )}
             </div>
         </div>
