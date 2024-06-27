@@ -7,7 +7,7 @@ import ModalPage from '../modalPage/ModalPage'
 
 import { useNavigate } from "react-router-dom";
 
-const Book = ({ title, author, imageUrl, description, price, id, onDelete }) => {
+const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAddToCart }) => {
     const navigate = useNavigate();
     const { userType, isLoggedIn } = useContext(UserContext)
     const [isEditing, setIsEditing] = useState(false)
@@ -15,6 +15,7 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete }) => 
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
     const [showModal, setShowModal] = useState(false);
+    const [items, setItems] = useState([]); //array de titulos del carrito
 
 
     console.log(userType)
@@ -37,7 +38,7 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete }) => 
             items.push(title)
             localStorage.setItem("cartItem", JSON.stringify(items))
         }
-
+        onAddToCart(id);
     }
 
     const handleDelete = () => {
@@ -152,6 +153,7 @@ Book.PropTypes = {
     price: PropTypes.number,
     id: PropTypes.number,
     onDelete: PropTypes.func,
+    onAddToCart: PropTypes.func,
 };
 
 export default Book;

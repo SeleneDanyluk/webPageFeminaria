@@ -20,6 +20,7 @@ export const UserProvider = ({ children }) => {
     const logout = () => {
         window.localStorage.removeItem("type");
         window.localStorage.removeItem("sub");
+        window.localStorage.removeItem("cartItem");
         setUserType(null);
         setUserId(null);
         setIsLoggedIn(false);
