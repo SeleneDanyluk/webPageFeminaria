@@ -35,7 +35,6 @@ const Cart = () => {
             });
     }, [cart]);
 
-    //onremoveitem me va a devolver el id del libro a eliminar y del contexto utilizo el sub para el user id 
     const handleRemoveItemCart = (onRemoveItem) => {
         fetch(`https://localhost:7069/${sub}/removeItem?bookId=${onRemoveItem}`, {
             method: "DELETE",
@@ -60,6 +59,7 @@ const Cart = () => {
                 setShowToast(true);
             });
     };
+
     return (
         <>
             {!cart ? <div>Carrito creado</div> : <Container>

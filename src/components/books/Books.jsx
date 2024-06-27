@@ -1,18 +1,23 @@
 import React, { useCallback } from 'react';
 import Book from '../book/Book';
 import './Books.css'
-import { useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchBook from '../searchBook/SearchBook';
 import { Button } from 'react-bootstrap';
 import UserContext from "../../context/userContext"
+import ModalPage from '../modalPage/ModalPage'
 
 
 const Books = () => {
-    const { userType } = useContext(UserContext);
+    const { userType, sub } = useContext(UserContext);
 
     const navigate = useNavigate();
-
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const [showModal, setShowModal] = useState(false);
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
     const [prevData, setPrevData] = useState([]);
     const [books, setBooks] = useState([]);
 
@@ -53,6 +58,28 @@ const Books = () => {
         setBooks(books.filter(book => book.id !== bookId));
     };
 
+    const handleAddToCart = (onAddToCart) => {
+        fetch(`https://localhost:7069/${sub}/addItem?bookId=${onAddToCart}`, {
+            method: "POST",
+            mode: "cors"
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al agregar el libro");
+                }
+                setTitleModal('¡Su libro fue agregado al carrito!')
+                setBodyModal('')
+                handleShow()
+
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                setToastMessage("Error al eliminar el libro");
+                setToastVariant("danger");
+                setShowToast(true);
+            });
+    }
+
     return (
         <div>
             <div className='search-container'>
@@ -70,6 +97,7 @@ const Books = () => {
                             description={book.description}
                             price={book.price}
                             onDelete={handleBookDelete}
+                            onAddToCart={handleAddToCart}
                         ></Book>
                     ))
                 ) : (
@@ -79,6 +107,12 @@ const Books = () => {
                     </div>
                 )}
             </div>
+            <ModalPage
+                title={titleModal}
+                body={bodyModal}
+                show={showModal}
+                onClose={handleClose}
+            />
         </div>
     );
 };
