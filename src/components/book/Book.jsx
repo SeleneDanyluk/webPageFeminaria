@@ -15,6 +15,7 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
     const [showModal, setShowModal] = useState(false);
+    const [items, setItems] = useState([]); //array de titulos del carrito
 
 
     console.log(userType)
@@ -22,6 +23,21 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
     const handleShow = () => setShowModal(true);
 
     const handleAddCart = () => {
+        const cartItems = localStorage.getItem("cartItem")
+        const parsedItems = JSON.parse(cartItems);
+        if (cartItems !== null && Array.isArray(parsedItems)) {
+            if (parsedItems.some(p => p == title)) {
+                alert("Ya está agregado al carrito")
+                return
+            }
+            parsedItems.push(title)
+            localStorage.setItem("cartItem", JSON.stringify(parsedItems))
+        }
+        else {
+            const items = []
+            items.push(title)
+            localStorage.setItem("cartItem", JSON.stringify(items))
+        }
         onAddToCart(id);
     }
 
