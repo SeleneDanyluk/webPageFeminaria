@@ -4,17 +4,15 @@ import CartItems from '../cartItems/CartItems'
 import './Cart.css'
 import ModalPage from '../modalPage/ModalPage'
 import UserContext from '../../context/userContext'
+import useModal from '../../hooks/useModal'
 
 const Cart = () => {
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
     const { sub } = useContext(UserContext);
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
-    const [showModal, setShowModal] = useState(false);
     const [cart, setCart] = useState([]);
     const [cartBooks, setCartBooks] = useState([]);
-    
+    const { isShown, showModal, hideModal } = useModal()
 
     useEffect(() => {
         fetch(`https://localhost:7069/${sub}/my-cart`, {
@@ -33,6 +31,9 @@ const Cart = () => {
             })
             .catch((error) => {
                 console.error("Error:", error);
+                setTitleModal('Error')
+                setBodyModal(error.message)
+                showModal()
             });
     }, [cart]);
 
@@ -47,7 +48,7 @@ const Cart = () => {
                 }
                 setTitleModal('¡Su libro fue eliminado exitosamente!')
                 setBodyModal('')
-                handleShow()
+                showModal()
                 return response.json();
             })
             .then((data) => {
@@ -86,8 +87,8 @@ const Cart = () => {
                 <ModalPage
                     title={titleModal}
                     body={bodyModal}
-                    show={showModal}
-                    onClose={handleClose}
+                    show={isShown}
+                    onClose={hideModal}
                 />
             </Container>}
         </>

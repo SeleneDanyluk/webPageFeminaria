@@ -2,15 +2,13 @@ import React, { useState, useRef } from 'react';
 import './SignIn.css';
 import { useNavigate } from "react-router-dom";
 import ModalPage from '../modalPage/ModalPage'
+import useModal from '../../hooks/useModal';
 
 
 const SignInForm = () => {
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
-    const [showModal, setShowModal] = useState(false);
-
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
+    const { isShown, showModal, hideModal } = useModal()
 
     const [formData, setFormData] = useState({
         name: '',
@@ -31,6 +29,9 @@ const SignInForm = () => {
         e.preventDefault();
         if (!formData.name || !formData.email || !formData.password) {
             setErrorMessage('Todos los campos son obligatorios. Por favor, complete todos los campos.');
+            setTitleModal('Error')
+            setBodyModal('Todos los campos son obligatorios. Por favor, complete todos los campos.')
+            showModal()
             setTimeout(() => {
                 setErrorMessage('');
             }, 10000);
@@ -52,9 +53,9 @@ const SignInForm = () => {
             }
 
             const data = await response.json();
-            setTitleModal('¡Usuario creado éxitosamente!');
-            setBodyModal('');
-            handleShow();
+            setTitleModal('¡Usuario creado éxitosamente!')
+            setBodyModal('')
+            showModal()
 
             setTimeout(() => {
                 navigate('/login');
@@ -74,7 +75,9 @@ const SignInForm = () => {
                 password: '',
                 userType: 0
             });
-            setErrorMessage(error.message);
+            setTitleModal('Error')
+            setBodyModal(error.message)
+            showModal()
             setTimeout(() => {
                 setErrorMessage('');
             }, 5000);
