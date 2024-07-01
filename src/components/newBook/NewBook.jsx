@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import './NewBook.css'
+import useModal from '../../hooks/useModal';
 
 const NewBook = () => {
   const [titleEntered, setTitleEntered] = useState('');
@@ -10,9 +11,11 @@ const NewBook = () => {
   const [descriptionEntered, setDescriptionEntered] = useState('');
   const [imgEntered, setImgEntered] = useState('');
   const [formValid, setFormValid] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const titleRef = useRef(null);
+  const [titleModal, setTitleModal] = useState('')
+  const [bodyModal, setBodyModal] = useState('')
+  const { isShown, showModal, hideModal } = useModal()
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
@@ -59,7 +62,9 @@ const NewBook = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formValid) {
-      setErrorMessage('Please fill in all required fields.');
+      setTitleModal('Error')
+      setBodyModal('Por favor, rellene todos los campos obligatorios.')
+      showModal()
       setTimeout(() => {
         setErrorMessage('');
       }, 5000);
@@ -99,7 +104,9 @@ const NewBook = () => {
       setPriceEntered(0);
       setDescriptionEntered('');
       setImgEntered('');
-      setErrorMessage('Book added successfully!');
+      setTitleModal('Libro añadido exitosamente !.')
+      setBodyModal('')
+      showModal()
       setTimeout(() => {
         setErrorMessage('');
       }, 5000);
@@ -193,6 +200,12 @@ const NewBook = () => {
           </Row>
         </Form>
       </Container>
+      <ModalPage
+        title={titleModal}
+        body={bodyModal}
+        show={isShown}
+        onClose={hideModal}
+      />
     </>
   );
 };

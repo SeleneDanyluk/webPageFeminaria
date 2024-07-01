@@ -4,30 +4,28 @@ import { Card, Button, FormControl} from "react-bootstrap";
 import './Book.css';
 import UserContext from "../../context/userContext"
 import ModalPage from '../modalPage/ModalPage'
-
 import { useNavigate } from "react-router-dom";
+import useModal from '../../hooks/useModal';
 
 const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAddToCart }) => {
     const navigate = useNavigate();
     const { userType, isLoggedIn } = useContext(UserContext)
     const [isEditing, setIsEditing] = useState(false)
     const [newPrice, setNewPrice] = useState(price)
+    const [items, setItems] = useState([]); //array de titulos del carrito
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
-    const [showModal, setShowModal] = useState(false);
-    const [items, setItems] = useState([]); //array de titulos del carrito
+    const { isShown, showModal, hideModal } = useModal();
 
-
-    console.log(userType)
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
 
     const handleAddCart = () => {
         const cartItems = localStorage.getItem("cartItem")
         const parsedItems = JSON.parse(cartItems);
         if (cartItems !== null && Array.isArray(parsedItems)) {
             if (parsedItems.some(p => p == title)) {
-                alert("Ya está agregado al carrito")
+                setTitleModal("Ya está agregado al carrito")
+                setBodyModal('')
+                showModal()
                 return
             }
             parsedItems.push(title)
@@ -52,8 +50,7 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
                 throw new Error("Error al eliminar el libro");
             }
             setTitleModal('¡Su libro fue eliminado exitosamente!')
-            setBodyModal('')
-            handleShow()
+            showModal()
             onDelete(id);
         })
         .catch(error => {
@@ -82,8 +79,7 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
                 throw new Error("Error al actualizar el libro");
             }
             setTitleModal('¡Precio actualizado correctamente!')
-            setBodyModal('')
-            handleShow()
+            showModal()
             setIsEditing(false);
             
         })
@@ -136,8 +132,8 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
                 <ModalPage 
                 title={titleModal}
                 body={bodyModal}
-                show={showModal}
-                onClose={handleClose}
+                show={isShown}
+                onClose={hideModal}
                 />
             </Card>
         </div>

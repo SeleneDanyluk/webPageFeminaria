@@ -2,10 +2,14 @@ import React, { useEffect, useState, useContext } from 'react';
 import User from '../user/User';
 import './Users.css';
 import UserContext from '../../context/userContext';
+import useModal from '../../hooks/useModal';
 
 const Users = () => {
     const { sub } = useContext(UserContext);
     const [users, setUsers] = useState([]);
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const { isShown, showModal, hideModal } = useModal()
 
     useEffect(() => {
         fetch("https://localhost:7069/api/User", {
@@ -23,6 +27,9 @@ const Users = () => {
             })
             .catch((error) => {
                 console.error("Error:", error);
+                setTitleModal('Error')
+                setBodyModal(error.message)
+                showModal()
             });
     }, [users]);
 
@@ -55,6 +62,9 @@ const Users = () => {
             })
             .catch((error) => {
                 console.error("Error:", error);
+                setTitleModal('Error')
+                setBodyModal(error.message)
+                showModal()
             });
     };
 
@@ -63,19 +73,23 @@ const Users = () => {
             method: "DELETE",
             mode: "cors",
         })
-        .then((response) => {
-            if (response.status === 204 || response.ok) {
-                setUsers(users);
-            } else {
-                throw new Error("Error al eliminar el usuario");
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
-};
+            .then((response) => {
+                if (response.status === 204 || response.ok) {
+                    setUsers(users);
+                } else {
+                    throw new Error("Error al eliminar el usuario");
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                setTitleModal('Error')
+                setBodyModal(error.message)
+                showModal()
+            });
+    };
 
     return (
+
         <div className="users-container">
             {users.length > 0 ? (
                 users.map((user) => (
@@ -92,6 +106,12 @@ const Users = () => {
             ) : (
                 <p>NO HAY NADA PARA MOSTRAR</p>
             )}
+            <ModalPage
+                title={titleModal}
+                body={bodyModal}
+                show={isShown}
+                onClose={hideModal}
+            />
         </div>
     );
 };

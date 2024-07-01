@@ -7,19 +7,19 @@ import SearchBook from '../searchBook/SearchBook';
 import { Button } from 'react-bootstrap';
 import UserContext from "../../context/userContext"
 import ModalPage from '../modalPage/ModalPage'
+import useModal from '../../hooks/useModal';
 
 
 const Books = () => {
     const { userType, sub } = useContext(UserContext);
 
     const navigate = useNavigate();
-    const [titleModal, setTitleModal] = useState('')
-    const [bodyModal, setBodyModal] = useState('')
-    const [showModal, setShowModal] = useState(false);
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
     const [prevData, setPrevData] = useState([]);
     const [books, setBooks] = useState([]);
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const { isShown, showModal, hideModal } = useModal();
+
 
     useEffect(() => {
         fetch("https://localhost:7069/api/Book", {
@@ -69,8 +69,7 @@ const Books = () => {
                 }
                 setTitleModal('¡Su libro fue agregado al carrito!')
                 setBodyModal('')
-                handleShow()
-
+                showModal()
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -110,8 +109,8 @@ const Books = () => {
             <ModalPage
                 title={titleModal}
                 body={bodyModal}
-                show={showModal}
-                onClose={handleClose}
+                show={isShown}
+                onClose={hideModal}
             />
         </div>
     );
