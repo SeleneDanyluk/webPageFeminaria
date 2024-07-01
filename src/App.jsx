@@ -14,6 +14,7 @@ import Login from "./components/login/Login"
 import Cart from "./components/cart/Cart";
 import NewBook from "./components/newBook/NewBook.jsx";
 import Protected from "./components/routes/protected/Protected.jsx";
+import Purchases from "./components/purchases/Purchases";
 
 
 
@@ -100,6 +101,14 @@ function App() {
       element: (
         <Layout>
           <Users />
+        </Layout>
+      ),
+    },
+    {
+      path: "/purchases",
+      element: (
+        <Layout>
+          <Purchases />
         </Layout>
       ),
     },
