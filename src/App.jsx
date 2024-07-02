@@ -15,6 +15,7 @@ import Cart from "./components/cart/Cart";
 import NewBook from "./components/newBook/NewBook.jsx";
 import Protected from "./components/routes/protected/Protected.jsx";
 import Purchases from "./components/purchases/Purchases";
+import NotFound from "./components/notFound/NotFound";
 
 
 
@@ -109,6 +110,10 @@ function App() {
       element: (
         <Layout>
           <Purchases />
+      path: "*",
+      element: (
+        <Layout>
+          <NotFound />
         </Layout>
       ),
     },

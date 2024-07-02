@@ -8,6 +8,8 @@ const UserContext = createContext({
     setUserType: () => { },
     sub: Number(window.localStorage.getItem("sub")),
     setUserId: () => { },
+    userName: Number(window.localStorage.getItem("name")),
+    setUserId: () => { },
     isLoggedIn: false,
     setIsLoggedIn: () => { },
 });
@@ -15,6 +17,7 @@ const UserContext = createContext({
 export const UserProvider = ({ children }) => {
     const [userType, setUserType] = useState(window.localStorage.getItem("type"))
     const [sub, setUserId] = useState(window.localStorage.getItem("sub"))
+    const [userName, setUserName] = useState(window.localStorage.getItem("name"))
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const logout = () => {
@@ -23,6 +26,7 @@ export const UserProvider = ({ children }) => {
         window.localStorage.removeItem("cartItem");
         setUserType(null);
         setUserId(null);
+        setUserName(null);
         setIsLoggedIn(false);
     };
 
@@ -35,7 +39,7 @@ export const UserProvider = ({ children }) => {
     }, [userType, sub]);
 
     return (
-        <UserContext.Provider value={{ userType, setUserType, sub, setUserId, isLoggedIn, setIsLoggedIn, logout }}>
+        <UserContext.Provider value={{ userType, setUserType, sub, setUserId, isLoggedIn, setIsLoggedIn, logout, userName }}>
             {children}
         </UserContext.Provider>
     );

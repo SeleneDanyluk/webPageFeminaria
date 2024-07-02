@@ -7,19 +7,19 @@ import SearchBook from '../searchBook/SearchBook';
 import { Button } from 'react-bootstrap';
 import UserContext from "../../context/userContext"
 import ModalPage from '../modalPage/ModalPage'
+import useModal from '../../hooks/useModal';
 
 
 const Books = () => {
     const { userType, sub } = useContext(UserContext);
 
     const navigate = useNavigate();
-    const [titleModal, setTitleModal] = useState('')
-    const [bodyModal, setBodyModal] = useState('')
-    const [showModal, setShowModal] = useState(false);
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
     const [prevData, setPrevData] = useState([]);
     const [books, setBooks] = useState([]);
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const { isShown, showModal, hideModal } = useModal();
+
 
     useEffect(() => {
         fetch("https://localhost:7069/api/Book", {
@@ -33,7 +33,11 @@ const Books = () => {
                 return response.json();
             })
             .then((booksData) => {
-                setBooks(booksData);
+                if (userType == 1) {
+                    setBooks(booksData);
+                } else {
+                    setBooks(booksData.filter(book => book.stock != 0));
+                }
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -69,8 +73,7 @@ const Books = () => {
                 }
                 setTitleModal('¡Su libro fue agregado al carrito!')
                 setBodyModal('')
-                handleShow()
-
+                showModal()
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -96,6 +99,7 @@ const Books = () => {
                             imageUrl={'https://res.cloudinary.com/di0y6v99p/image/upload/v1718575669/images_secufd.jpg'}
                             description={book.description}
                             price={book.price}
+                            stock={book.stock}
                             onDelete={handleBookDelete}
                             onAddToCart={handleAddToCart}
                         ></Book>
@@ -110,8 +114,8 @@ const Books = () => {
             <ModalPage
                 title={titleModal}
                 body={bodyModal}
-                show={showModal}
-                onClose={handleClose}
+                show={isShown}
+                onClose={hideModal}
             />
         </div>
     );

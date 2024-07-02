@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import './createUser.css';
 import ModalPage from '../modalPage/ModalPage'
+import useModal from '../../hooks/useModal';
 
 const CreateUser = () => {
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
-    const [showModal, setShowModal] = useState(false);
-
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
+    const { isShown, showModal, hideModal } = useModal()
 
     const [formData, setFormData] = useState({
         nombre: '',

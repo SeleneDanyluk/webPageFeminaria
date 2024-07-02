@@ -4,30 +4,28 @@ import { Card, Button, FormControl} from "react-bootstrap";
 import './Book.css';
 import UserContext from "../../context/userContext"
 import ModalPage from '../modalPage/ModalPage'
-
 import { useNavigate } from "react-router-dom";
+import useModal from '../../hooks/useModal';
 
-const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAddToCart }) => {
+const Book = ({ title, author, imageUrl, description, price, id, stock, onDelete, onAddToCart }) => {
     const navigate = useNavigate();
     const { userType, isLoggedIn } = useContext(UserContext)
     const [isEditing, setIsEditing] = useState(false)
     const [newPrice, setNewPrice] = useState(price)
+    const [items, setItems] = useState([]); //array de titulos del carrito
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
-    const [showModal, setShowModal] = useState(false);
-    const [items, setItems] = useState([]); //array de titulos del carrito
+    const { isShown, showModal, hideModal } = useModal();
 
-
-    console.log(userType)
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
 
     const handleAddCart = () => {
         const cartItems = localStorage.getItem("cartItem")
         const parsedItems = JSON.parse(cartItems);
         if (cartItems !== null && Array.isArray(parsedItems)) {
             if (parsedItems.some(p => p == title)) {
-                alert("Ya está agregado al carrito")
+                setTitleModal("Ya está agregado al carrito")
+                setBodyModal('')
+                showModal()
                 return
             }
             parsedItems.push(title)
@@ -52,8 +50,7 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
                 throw new Error("Error al eliminar el libro");
             }
             setTitleModal('¡Su libro fue eliminado exitosamente!')
-            setBodyModal('')
-            handleShow()
+            showModal()
             onDelete(id);
         })
         .catch(error => {
@@ -63,6 +60,31 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
             setShowToast(true);
         });
     };
+
+    const handleRemoveBook = () =>{
+        fetch(`https://localhost:7069/api/Book?id=${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            mode: "cors",
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al actualizar el libro");
+            }
+            setTitleModal('El libro fue removido de la venta correctamente')
+            showModal()
+            setIsEditing(false);
+            
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            setToastMessage("Error al remover el libro de la venta");
+            setToastVariant("danger");
+            setShowToast(true);
+        });
+    }
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -82,8 +104,7 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
                 throw new Error("Error al actualizar el libro");
             }
             setTitleModal('¡Precio actualizado correctamente!')
-            setBodyModal('')
-            handleShow()
+            showModal()
             setIsEditing(false);
             
         })
@@ -120,15 +141,24 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
                         {description}
                     </Card.Text>
                     <div className='container button-container'>
-                        {isLoggedIn ? 
-                            <Button variant="dark" onClick={handleAddCart}>Agregar al carrito</Button> 
-                        : <Button variant="dark" onClick={()=> navigate('/login')}>Acceder para agregar al carrito</Button>}
+                        {isLoggedIn ? (
+                            userType == 0 ? (
+                            <Button variant="dark" onClick={handleAddCart}>Agregar al carrito</Button>
+                            ) : null
+                            ) : (
+                            <Button variant="dark" onClick={() => navigate('/login')}>Agregar al carrito</Button>
+                            )}
                         {
 
                             userType == 2 || userType == 1 &&
                             <>
                             <Button variant="primary" onClick={handleEdit}>Editar</Button>
                             <Button variant="danger" onClick={handleDelete}>Eliminar</Button> 
+                            <br></br>
+                            <Card.Subtitle>Stock: {stock} unidades.</Card.Subtitle>
+                            { (stock == 0) ? <Button variant="info">NO ESTA A LA VENTA</Button> :
+                                <Button variant="warning" onClick={handleRemoveBook}>Quitar de la venta</Button>
+                            }
                             </>
                         }
                     </div>
@@ -136,8 +166,8 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
                 <ModalPage 
                 title={titleModal}
                 body={bodyModal}
-                show={showModal}
-                onClose={handleClose}
+                show={isShown}
+                onClose={hideModal}
                 />
             </Card>
         </div>
@@ -152,6 +182,7 @@ Book.PropTypes = {
     description: PropTypes.string,
     price: PropTypes.number,
     id: PropTypes.number,
+    stock: PropTypes.number,
     onDelete: PropTypes.func,
     onAddToCart: PropTypes.func,
 };

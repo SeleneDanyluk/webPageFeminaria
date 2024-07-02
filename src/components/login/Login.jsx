@@ -4,6 +4,8 @@ import './Login.css'
 import { getUser } from '../../auth/token'
 import { useNavigate } from 'react-router-dom'
 import UserContext from '../../context/userContext'
+import useModal from '../../hooks/useModal'
+import ModalPage from '../modalPage/ModalPage'
 
 
 const Login = () => {
@@ -11,6 +13,10 @@ const Login = () => {
     const [passwordEntered, setPasswordEntered] = useState('');
     const [formValid, setFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [titleModal, setTitleModal] = useState('')
+    const [bodyModal, setBodyModal] = useState('')
+    const { isShown, showModal, hideModal } = useModal()
+
 
     const usernameRef = useRef(null);
 
@@ -44,7 +50,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const { role, sub } = await getUser(usernameEntered, passwordEntered);
+            const { role, sub, given_name } = await getUser(usernameEntered, passwordEntered);
             switch (role) {
                 case "admin":
                     setUserType(1);
@@ -65,8 +71,11 @@ const Login = () => {
                     window.localStorage.setItem("sub", sub);
                     break;
             };
+            window.localStorage.setItem("name", given_name)
             setErrorMessage('');
-            alert("Ingreso exitoso");
+            setTitleModal("Ingreso exitoso");
+            setBodyModal('')
+            showModal()
             navigate('/');
             setIsLoggedIn(true);
             console.log(isLoggedIn);
@@ -78,7 +87,9 @@ const Login = () => {
             setIsLoggedIn(false);
             setPasswordEntered("");
             setUsernameEntered("")
-            alert('Error en las credenciales. Por favor, inténtelo de nuevo.');
+            setTitleModal('Error en las credenciales. Por favor, inténtelo de nuevo.');
+            setBodyModal('')
+            showModal()
             console.error(error);
         }
     };
@@ -129,6 +140,12 @@ const Login = () => {
                         <Button disabled={!formValid} onClick={handleLogin} variant='link' className='btn-login'>Acceder</Button>
                     </Col>
                 </Row>
+            <ModalPage 
+                title={titleModal}
+                body={bodyModal}
+                show={isShown}
+                onClose={hideModal}
+            />
             </Container>
         </>
     );

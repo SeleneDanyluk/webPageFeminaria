@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import UserContext from '../../../context/userContext'
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 
 const Protected = ({ children }) => {
     const navigate = useNavigate();
@@ -10,7 +9,10 @@ const Protected = ({ children }) => {
 
     return (
         <>
-            {isLoggedIn ? children : <Button onClick={() => navigate('/login')}>Acceder</Button>}
+            {isLoggedIn ? children : <Container>
+                <h4>Parece que aún no iniciaste sesión. Accede para poder ver tu carrito</h4>
+                <Button variant='info' onClick={() => navigate('/login')}>Acceder</Button>
+                </Container>}
         </>
     );
 };
