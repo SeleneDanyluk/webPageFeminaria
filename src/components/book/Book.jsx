@@ -7,7 +7,7 @@ import ModalPage from '../modalPage/ModalPage'
 import { useNavigate } from "react-router-dom";
 import useModal from '../../hooks/useModal';
 
-const Book = ({ title, author, imageUrl, description, price, id, stock, onDelete, onAddToCart }) => {
+const Book = ({ title, author, imageUrl, description, price, id, stock, onDelete, onAddToCart, onRemoveFromSale}) => {
     const navigate = useNavigate();
     const { userType, isLoggedIn } = useContext(UserContext)
     const [isEditing, setIsEditing] = useState(false)
@@ -62,28 +62,7 @@ const Book = ({ title, author, imageUrl, description, price, id, stock, onDelete
     };
 
     const handleRemoveBook = () =>{
-        fetch(`https://localhost:7069/api/Book?id=${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            mode: "cors",
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error al actualizar el libro");
-            }
-            setTitleModal('El libro fue removido de la venta correctamente')
-            showModal()
-            setIsEditing(false);
-            
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            setToastMessage("Error al remover el libro de la venta");
-            setToastVariant("danger");
-            setShowToast(true);
-        });
+        onRemoveFromSale(id);
     }
 
     const handleEdit = () => {
@@ -181,6 +160,7 @@ Book.PropTypes = {
     stock: PropTypes.number,
     onDelete: PropTypes.func,
     onAddToCart: PropTypes.func,
+    onRemoveFromSale: PropTypes.func,
 };
 
 export default Book;
