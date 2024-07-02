@@ -33,7 +33,11 @@ const Books = () => {
                 return response.json();
             })
             .then((booksData) => {
-                setBooks(booksData);
+                if (userType == 1) {
+                    setBooks(booksData);
+                } else {
+                    setBooks(booksData.filter(book => book.stock != 0));
+                }
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -95,6 +99,7 @@ const Books = () => {
                             imageUrl={'https://res.cloudinary.com/di0y6v99p/image/upload/v1718575669/images_secufd.jpg'}
                             description={book.description}
                             price={book.price}
+                            stock={book.stock}
                             onDelete={handleBookDelete}
                             onAddToCart={handleAddToCart}
                         ></Book>

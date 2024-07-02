@@ -64,7 +64,7 @@ const Cart = () => {
 
     return (
         <>
-            {!cart ? <div>Carrito creado</div> : <Container>
+            {(cartBooks.length != 0) ? <Container>
                 <Form className='my-3'>
                     {cartBooks.map((item, index) => (
                         <CartItems
@@ -90,7 +90,9 @@ const Cart = () => {
                     show={isShown}
                     onClose={hideModal}
                 />
-            </Container>}
+            </Container> : <Container><p>Aun no tiene productos en el carrito.</p>
+                <Button>Explora nuestra coleccion</Button></Container>
+            }
         </>
     );
 };

@@ -50,7 +50,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const { role, sub } = await getUser(usernameEntered, passwordEntered);
+            const { role, sub, given_name } = await getUser(usernameEntered, passwordEntered);
             switch (role) {
                 case "admin":
                     setUserType(1);
@@ -71,6 +71,7 @@ const Login = () => {
                     window.localStorage.setItem("sub", sub);
                     break;
             };
+            window.localStorage.setItem("name", given_name)
             setErrorMessage('');
             setTitleModal("Ingreso exitoso");
             setBodyModal('')

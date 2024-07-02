@@ -10,7 +10,7 @@ import UserContext from "../../context/userContext"
 
 const NavBar = () => {
     const navigate = useNavigate();
-    const { userType, isLoggedIn, logout } = useContext(UserContext);
+    const { userType, isLoggedIn, logout, userName } = useContext(UserContext);
 
     const handleLogout = () => {
         logout();
@@ -22,6 +22,7 @@ const NavBar = () => {
             <Container fluid className='navbar-container-1'>
                 <Container><Image src="../src/data/images/Recurso 8.svg" fluid /></Container>
                 <Container className='icon-container'>
+                    {isLoggedIn && <p>¡Bienvenidx {userName}!</p>}
                     {isLoggedIn ? (
                         <Button className='nav-button' onClick={handleLogout}>
                             <Image className='svg-img' src="../src/data/images/user-solid.svg" fluid />Cerrar Sesión
@@ -31,9 +32,9 @@ const NavBar = () => {
                             <Image className='svg-img' src="../src/data/images/user-solid.svg" fluid />Acceder
                         </Button>
                     )}
-                    <Button className='nav-button' onClick={() => navigate('/cart')}>
+                    {userType == 0 && <Button className='nav-button' onClick={() => navigate('/cart')}>
                         <Image className='svg-img' src="../src/data/images/cart-shopping-solid.svg" fluid />Carrito
-                    </Button>
+                    </Button>}
                 </Container>
             </Container>
             <Navbar expand="lg" className="navbar-container-2">
