@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import UserContext from '../../context/userContext';
 import PurchaseCart from '../purchaseCart/PurchaseCart';
+import './Purchases.css'; 
 
 const Purchases = () => {
   const { sub } = useContext(UserContext);
@@ -38,7 +39,10 @@ const Purchases = () => {
           <PurchaseCart key={purchase.id} cart={purchase} />
         ))
       ) : (
-        <p>NO HAY NADA PARA MOSTRAR</p>
+        <div className="no-purchases-message">
+          <p>Aún no tienes carritos confirmados.</p>
+          <p>Explora nuestra pagina de libros y confirma tu primer carrito.</p>
+        </div>
       )}
     </div>
   );

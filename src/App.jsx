@@ -110,6 +110,10 @@ function App() {
       element: (
         <Layout>
           <Purchases />
+          </Layout>
+      ),
+    },
+    {
       path: "*",
       element: (
         <Layout>
