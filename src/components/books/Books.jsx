@@ -18,9 +18,32 @@ const Books = () => {
     const [books, setBooks] = useState([]);
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
+    const [isDeleted, setIsDeleted] = useState(false);
     const { isShown, showModal, hideModal } = useModal();
 
-
+    const handleRemoveFromSale = (onRemoveFromSale) => {
+        fetch(`https://localhost:7069/api/Book?id=${onRemoveFromSale}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            mode: "cors",
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al actualizar el libro");
+                }
+                setTitleModal('El libro fue removido de la venta correctamente')
+                showModal()
+                setIsDeleted(true);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                setToastMessage("Error al remover el libro de la venta");
+                setToastVariant("danger");
+                setShowToast(true);
+            });
+    }
     useEffect(() => {
         fetch("https://localhost:7069/api/Book", {
             method: "GET",
@@ -42,7 +65,7 @@ const Books = () => {
             .catch((error) => {
                 console.error("Error:", error);
             });
-    }, []);
+    }, [isDeleted]);
 
     const searchHandler = useCallback((onSearch) => {
         const filteredBooks = books.filter(
@@ -83,6 +106,8 @@ const Books = () => {
             });
     }
 
+
+
     return (
         <div>
             <div className='search-container'>
@@ -102,6 +127,7 @@ const Books = () => {
                             stock={book.stock}
                             onDelete={handleBookDelete}
                             onAddToCart={handleAddToCart}
+                            onRemoveFromSale={handleRemoveFromSale}
                         ></Book>
                     ))
                 ) : (
