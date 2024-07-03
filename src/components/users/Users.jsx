@@ -3,6 +3,7 @@ import User from '../user/User';
 import './Users.css';
 import UserContext from '../../context/userContext';
 import useModal from '../../hooks/useModal';
+import ModalPage from '../modalPage/ModalPage'
 
 const Users = () => {
     const { sub } = useContext(UserContext);
@@ -58,6 +59,9 @@ const Users = () => {
             .then((updatedUser) => {
                 if (updatedUser) {
                     setUsers(users.map(user => (user.sub === sub ? updatedUser : user)));
+                    setTitleModal('Contraseña modificada !')
+                    setBodyModal('')
+                    showModal()
                 }
             })
             .catch((error) => {
@@ -76,6 +80,9 @@ const Users = () => {
             .then((response) => {
                 if (response.status === 204 || response.ok) {
                     setUsers(users);
+                    setTitleModal('Usuario eliminado exitosamente !')
+                    setBodyModal('')
+                    showModal()
                 } else {
                     throw new Error("Error al eliminar el usuario");
                 }

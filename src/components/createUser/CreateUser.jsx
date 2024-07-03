@@ -49,12 +49,12 @@ const CreateUser = () => {
         .then(data => {
             setTitleModal('¡Admin creado éxitosamente!')
             setBodyModal('')
-            handleShow()
+            showModal()
         })
         .catch(error => {
-            setTitleModal('Email inválido');
-            setBodyModal(error.message);
-            handleShow();
+            setTitleModal('Email inválido')
+            setBodyModal(error.message)
+            showModal()
         });
     };
 
@@ -94,8 +94,8 @@ const CreateUser = () => {
             <ModalPage 
                 title={titleModal}
                 body={bodyModal}
-                show={showModal}
-                onClose={handleClose}
+                show={isShown}
+                onClose={hideModal}
             />
         </form>
     );

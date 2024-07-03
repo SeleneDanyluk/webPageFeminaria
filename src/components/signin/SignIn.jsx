@@ -44,12 +44,12 @@ const SignInForm = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
-                
+
             });
 
-              if (!response.ok) {
+            if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message);                
+                throw new Error(errorData.message);
             }
 
             const data = await response.json();
@@ -59,7 +59,7 @@ const SignInForm = () => {
 
             setTimeout(() => {
                 navigate('/login');
-            }, 2500); 
+            }, 2500);
 
             setFormData({
                 name: '',
@@ -67,7 +67,7 @@ const SignInForm = () => {
                 password: '',
                 userType: 0
             });
-            
+
         } catch (error) {
             setFormData({
                 name: '',
@@ -113,11 +113,11 @@ const SignInForm = () => {
                     />
                 </div>
                 <button type="submit">Registrarse</button>
-                <ModalPage 
-                title={titleModal}
-                body={bodyModal}
-                show={showModal}
-                onClose={handleClose}
+                <ModalPage
+                    title={titleModal}
+                    body={bodyModal}
+                    show={isShown}
+                    onClose={hideModal}
                 />
             </form>
         </div>
