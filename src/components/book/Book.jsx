@@ -120,9 +120,13 @@ const Book = ({ title, author, imageUrl, description, price, id, stock, onDelete
                         {description}
                     </Card.Text>
                     <div className='container button-container'>
-                        {isLoggedIn ? 
-                            <Button variant="dark" onClick={handleAddCart}>Agregar al carrito</Button> 
-                        : <Button variant="dark" onClick={()=> navigate('/login')}>Agregar al carrito</Button>}
+                        {isLoggedIn ? (
+                            userType == 0 ? (
+                            <Button variant="dark" onClick={handleAddCart}>Agregar al carrito</Button>
+                            ) : null
+                            ) : (
+                            <Button variant="dark" onClick={() => navigate('/login')}>Agregar al carrito</Button>
+                            )}
                         {
 
                             userType == 2 || userType == 1 &&

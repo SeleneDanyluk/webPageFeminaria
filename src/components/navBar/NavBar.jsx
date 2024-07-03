@@ -53,6 +53,8 @@ const NavBar = () => {
                             {userType === 2 && <Nav.Link className='beige-claro' onClick={() => navigate('/createadmin')}>Crear Admin</Nav.Link>}
                             {userType === 2 && <Nav.Link className='beige-claro' onClick={() => navigate('/usuarios')}>Usuarios</Nav.Link>}
                             {userType == 1 && <Nav.Link className='beige-claro'onClick={() => navigate('/newbook')}>Nuevo libro</Nav.Link>}
+                            {userType == 0 && <Nav.Link className='beige-claro'onClick={() => navigate('/purchases')}>Mis compras</Nav.Link>}
+
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
