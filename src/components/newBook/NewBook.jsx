@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import './NewBook.css'
 import useModal from '../../hooks/useModal';
+import ModalPage from '../modalPage/ModalPage'
 
 const NewBook = () => {
   const [titleEntered, setTitleEntered] = useState('');
