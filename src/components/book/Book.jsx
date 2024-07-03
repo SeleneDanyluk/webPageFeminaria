@@ -7,7 +7,7 @@ import ModalPage from '../modalPage/ModalPage'
 import { useNavigate } from "react-router-dom";
 import useModal from '../../hooks/useModal';
 
-const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAddToCart }) => {
+const Book = ({ title, author, imageUrl, description, price, id, stock, onDelete, onAddToCart }) => {
     const navigate = useNavigate();
     const { userType, isLoggedIn } = useContext(UserContext)
     const [isEditing, setIsEditing] = useState(false)
@@ -60,6 +60,31 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
             setShowToast(true);
         });
     };
+
+    const handleRemoveBook = () =>{
+        fetch(`https://localhost:7069/api/Book?id=${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            mode: "cors",
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al actualizar el libro");
+            }
+            setTitleModal('El libro fue removido de la venta correctamente')
+            showModal()
+            setIsEditing(false);
+            
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            setToastMessage("Error al remover el libro de la venta");
+            setToastVariant("danger");
+            setShowToast(true);
+        });
+    }
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -116,15 +141,24 @@ const Book = ({ title, author, imageUrl, description, price, id, onDelete, onAdd
                         {description}
                     </Card.Text>
                     <div className='container button-container'>
-                        {isLoggedIn ? 
-                            <Button variant="dark" onClick={handleAddCart}>Agregar al carrito</Button> 
-                        : <Button variant="dark" onClick={()=> navigate('/login')}>Acceder para agregar al carrito</Button>}
+                        {isLoggedIn ? (
+                            userType == 0 ? (
+                            <Button variant="dark" onClick={handleAddCart}>Agregar al carrito</Button>
+                            ) : null
+                            ) : (
+                            <Button variant="dark" onClick={() => navigate('/login')}>Agregar al carrito</Button>
+                            )}
                         {
 
                             userType == 2 || userType == 1 &&
                             <>
                             <Button variant="primary" onClick={handleEdit}>Editar</Button>
                             <Button variant="danger" onClick={handleDelete}>Eliminar</Button> 
+                            <br></br>
+                            <Card.Subtitle>Stock: {stock} unidades.</Card.Subtitle>
+                            { (stock == 0) ? <Button variant="info">NO ESTA A LA VENTA</Button> :
+                                <Button variant="warning" onClick={handleRemoveBook}>Quitar de la venta</Button>
+                            }
                             </>
                         }
                     </div>
@@ -148,6 +182,7 @@ Book.PropTypes = {
     description: PropTypes.string,
     price: PropTypes.number,
     id: PropTypes.number,
+    stock: PropTypes.number,
     onDelete: PropTypes.func,
     onAddToCart: PropTypes.func,
 };

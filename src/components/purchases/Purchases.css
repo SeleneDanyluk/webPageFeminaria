@@ -1,0 +1,10 @@
+.no-purchases-message {
+    color: #6A0DAD;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+    padding: 40px;
+    border: 1px solid #6A0DAD;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }

@@ -62,9 +62,35 @@ const Cart = () => {
             });
     };
 
+    const handlePurchase = () => {
+        fetch(`https://localhost:7069/${sub}/purchase`, {
+            method: "PUT",
+            mode: "cors",
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al realizar la compra");
+                }
+                setTitleModal('¡Compra realizada exitosamente!');
+                setBodyModal('Gracias por su compra.');
+                handleShow();
+                return response.json();
+            })
+            .then((data) => {
+                setCart([]); 
+                setCartBooks([]);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                setTitleModal('Error');
+                setBodyModal('Hubo un error al realizar la compra. Por favor, inténtelo de nuevo.');
+                handleShow();
+            });
+    };
+
     return (
         <>
-            {!cart ? <div>Carrito creado</div> : <Container>
+            {(cartBooks.length != 0) ? <Container>
                 <Form className='my-3'>
                     {cartBooks.map((item, index) => (
                         <CartItems
@@ -81,7 +107,7 @@ const Cart = () => {
                     <br></br>
                     <div><h2>Total: $ {cart.total}</h2></div>
                     <div className='d-flex justify-content-center gap-2 mt-3'>
-                        <Button type="submit" variant='primary' className='btn-cart'>COMPRAR</Button>
+                        <Button type="submit" variant='primary' className='btn-cart' onClick={handlePurchase}>COMPRAR</Button>
                     </div>
                 </Form>
                 <ModalPage
@@ -90,7 +116,9 @@ const Cart = () => {
                     show={isShown}
                     onClose={hideModal}
                 />
-            </Container>}
+            </Container> : <Container><p>Aun no tiene productos en el carrito.</p>
+                <Button>Explora nuestra coleccion</Button></Container>
+            }
         </>
     );
 };
