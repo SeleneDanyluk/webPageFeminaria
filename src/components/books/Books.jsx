@@ -18,6 +18,7 @@ const Books = () => {
     const [books, setBooks] = useState([]);
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
+    const [isDeleted, setIsDeleted] = useState(false);
     const { isShown, showModal, hideModal } = useModal();
 
     const handleRemoveFromSale = (onRemoveFromSale) => {
@@ -34,8 +35,7 @@ const Books = () => {
                 }
                 setTitleModal('El libro fue removido de la venta correctamente')
                 showModal()
-                setIsEditing(false);
-
+                setIsDeleted(true);
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -65,7 +65,7 @@ const Books = () => {
             .catch((error) => {
                 console.error("Error:", error);
             });
-    }, [handleRemoveFromSale]);
+    }, [isDeleted]);
 
     const searchHandler = useCallback((onSearch) => {
         const filteredBooks = books.filter(

@@ -35,7 +35,7 @@ const Cart = () => {
                 setBodyModal(error.message)
                 showModal()
             });
-    }, []);
+    }, [cart]);
 
     const handleRemoveItemCart = (onRemoveItem) => {
         fetch(`https://localhost:7069/${sub}/removeItem?bookId=${onRemoveItem}`, {
