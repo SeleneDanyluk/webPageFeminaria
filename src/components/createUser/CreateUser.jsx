@@ -50,6 +50,11 @@ const CreateUser = () => {
             setTitleModal('¡Admin creado éxitosamente!')
             setBodyModal('')
             handleShow()
+            setFormData({
+                nombre: '',
+                mail: '',
+                contrasena1: '',
+            });
         })
         .catch(error => {
             setTitleModal('Email inválido');
