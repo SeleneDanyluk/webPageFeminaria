@@ -85,7 +85,7 @@ function App() {
       path: "/createadmin",
       element: (
         <Layout>
-          <Protected requiredUserType={2}>
+          <Protected requiredUserType={2} path={"/createadmin"}>
             <CreateUser></CreateUser>
           </Protected>
         </Layout>
