@@ -24,6 +24,14 @@ const CreateUser = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!formData.nombre || !formData.mail || !formData.contrasena1) {
+            setTitleModal('Error en el envio');
+            setBodyModal('Debe completar todos los campos.');
+            showModal();
+            return;
+        }
+
         const userData = {
             name: formData.nombre,
             email: formData.mail,

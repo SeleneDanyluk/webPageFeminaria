@@ -5,6 +5,7 @@ import './Cart.css'
 import ModalPage from '../modalPage/ModalPage'
 import UserContext from '../../context/userContext'
 import useModal from '../../hooks/useModal'
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
     const { sub } = useContext(UserContext);
@@ -14,6 +15,17 @@ const Cart = () => {
     const [cartBooks, setCartBooks] = useState([]);
     const { isShown, showModal, hideModal } = useModal();
     const [isDeleted, setIsDeleted] = useState(false);
+    const navigate = useNavigate();
+
+
+    const messageContainerStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '300px', 
+        textAlign: 'center',
+    };
 
     useEffect(() => {
         fetch(`https://localhost:7069/${sub}/my-cart`, {
@@ -116,9 +128,9 @@ const Cart = () => {
                     </Form>
                 </Container>
             ) : (
-                <Container>
-                    <p>Aun no tiene productos en el carrito.</p>
-                    <Button>Explora nuestra coleccion</Button>
+                <Container style={messageContainerStyle}>
+                    <h4>Aun no tiene productos en el carrito.</h4>
+                    <Button variant='secondary' onClick={() => navigate('/libros')}>Explora nuestra coleccion</Button>
                 </Container>
             )}
             <ModalPage
