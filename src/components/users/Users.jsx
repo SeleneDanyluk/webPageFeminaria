@@ -8,6 +8,7 @@ import ModalPage from '../modalPage/ModalPage'
 const Users = () => {
     const { sub } = useContext(UserContext);
     const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [titleModal, setTitleModal] = useState('')
     const [bodyModal, setBodyModal] = useState('')
     const { isShown, showModal, hideModal } = useModal()
@@ -25,12 +26,14 @@ const Users = () => {
             })
             .then((usersData) => {
                 setUsers(usersData.filter(u => u.userType == 1));
+                setLoading(false); 
             })
             .catch((error) => {
                 console.error("Error:", error);
-                setTitleModal('Error')
-                setBodyModal(error.message)
-                showModal()
+                setTitleModal('Error');
+                setBodyModal(error.message);
+                showModal();
+                setLoading(false);
             });
     }, [users]);
 
@@ -96,22 +99,25 @@ const Users = () => {
     };
 
     return (
-
         <div className="users-container">
-            {users.length > 0 ? (
-                users.map((user) => (
-                    <User
-                        key={user.id}
-                        id={user.id}
-                        name={user.name}
-                        password={user.password}
-                        onModify={handleModify}
-                        onDelete={handleDelete}
-                        sub={sub}
-                    />
-                ))
+            {loading ? (
+                <p>Cargando usuarios...</p>
             ) : (
-                <p>NO HAY NADA PARA MOSTRAR</p>
+                users.length > 0 ? (
+                    users.map((user) => (
+                        <User
+                            key={user.id}
+                            id={user.id}
+                            name={user.name}
+                            password={user.password}
+                            onModify={handleModify}
+                            onDelete={handleDelete}
+                            sub={sub}
+                        />
+                    ))
+                ) : (
+                    <p>No hay nada para mostrar</p>
+                )
             )}
             <ModalPage
                 title={titleModal}
