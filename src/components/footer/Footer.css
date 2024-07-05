@@ -2,60 +2,58 @@
     box-sizing: border-box;
 }
 
-/* Contenedor del footer */
+
 .footer-container {
-    background-color: #7C3A9E; /* Color de fondo del footer */
-    color: #FFF1EE; /* Color del texto del footer */
-    padding: 40px 20px; /* Padding alrededor del contenido del footer */
-    margin-top: 0; /* Elimina cualquier margen superior */
+    background-color: #7C3A9E;
+    color: #FFF1EE;
+    padding: 40px 20px; 
+    margin-top: 0; 
 }
 
-/* Estilo del logo en el footer */
 .logo-img img {
-    max-width: 200px; /* Tamaño máximo del logo */
-    margin-bottom: 20px; /* Margen inferior */
+    max-width: 200px; 
+    margin-bottom: 20px; 
 }
 
-/* Títulos de las secciones del footer */
+
 .footer-container h6 {
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 10px; /* Separación con los enlaces */
+    margin-bottom: 10px; 
 }
 
-/* Enlaces de navegación en el footer */
+
 .footer-container .nav-link {
-    color: #FFF1EE; /* Color de los enlaces */
-    margin-bottom: 5px; /* Margen inferior */
-    padding: 0; /* Sin padding */
+    color: #FFF1EE; 
+    margin-bottom: 5px; 
+    padding: 0; 
 }
 
 .footer-container .nav-link:hover {
-    color: #ffffff; /* Color al pasar el mouse por encima */
-    text-decoration: none; /* Sin subrayado */
+    color: #ffffff; 
+    text-decoration: none; 
 }
 
-/* Ítems de contacto en el footer */
+
 .footer-container .nav-item {
-    color: #FFF1EE; /* Color del texto */
-    margin-bottom: 5px; /* Margen inferior */
+    color: #FFF1EE; 
+    margin-bottom: 5px;
 }
 
 .footer-container .nav-item:hover {
-    color: #ffffff; /* Color al pasar el mouse por encima */
+    color: #ffffff; 
 }
 
-/* Estilos responsivos */
 @media (max-width: 768px) {
     .footer-container {
-        text-align: center; /* Centrar el texto en pantallas pequeñas */
+        text-align: center; 
     }
 
     .footer-container .nav {
-        align-items: center; /* Centrar los elementos de navegación */
+        align-items: center; 
     }
 
     .footer-container .logo-img {
-        margin-bottom: 20px; /* Margen inferior */
+        margin-bottom: 20px; 
     }
 }
