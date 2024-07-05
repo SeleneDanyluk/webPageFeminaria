@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import './Login.css'
-import { getUser } from '../../auth/token'
+import { getUser } from '../../authenticationService/token'
 import { useNavigate } from 'react-router-dom'
 import UserContext from '../../context/userContext'
 import useModal from '../../hooks/useModal'
@@ -20,7 +20,7 @@ const Login = () => {
 
     const usernameRef = useRef(null);
 
-    const { userType, setUserType, sub, setUserId, setIsLoggedIn, isLoggedIn } = useContext(UserContext);
+    const { userType, setUserType, sub, setUserId, setIsLoggedIn, isLoggedIn, setUserName } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -51,6 +51,8 @@ const Login = () => {
     const handleLogin = async () => {
         try {
             const { role, sub, given_name } = await getUser(usernameEntered, passwordEntered);
+            window.localStorage.setItem("name", given_name);
+            setUserName(given_name);
             switch (role) {
                 case "admin":
                     setUserType(1);
@@ -71,26 +73,24 @@ const Login = () => {
                     window.localStorage.setItem("sub", sub);
                     break;
             };
-            window.localStorage.setItem("name", given_name)
             setErrorMessage('');
             setTitleModal("Ingreso exitoso");
             setBodyModal('')
-            showModal()
+            showModal();
             navigate('/');
             setIsLoggedIn(true);
-            console.log(isLoggedIn);
         } catch (error) {
             window.localStorage.removeItem("type");
             window.localStorage.removeItem("sub");
+            window.localStorage.removeItem("name");
             setUserType(null);
             setUserId(null);
             setIsLoggedIn(false);
             setPasswordEntered("");
-            setUsernameEntered("")
+            setUsernameEntered("");
             setTitleModal('Error en las credenciales. Por favor, inténtelo de nuevo.');
-            setBodyModal('')
-            showModal()
-            console.error(error);
+            setBodyModal('');
+            showModal();
         }
     };
 
@@ -140,13 +140,13 @@ const Login = () => {
                         <Button disabled={!formValid} onClick={handleLogin} variant='link' className='btn-login'>Acceder</Button>
                     </Col>
                 </Row>
-            <ModalPage 
+            </Container>
+            <ModalPage
                 title={titleModal}
                 body={bodyModal}
                 show={isShown}
                 onClose={hideModal}
             />
-            </Container>
         </>
     );
 };

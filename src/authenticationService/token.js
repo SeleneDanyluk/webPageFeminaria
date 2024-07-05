@@ -1,4 +1,4 @@
-import {jwtVerify} from 'jose'
+import { jwtVerify } from 'jose'
 
 export const getUser = async (email, password) => {
     try {

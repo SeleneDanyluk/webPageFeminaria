@@ -16,7 +16,6 @@ const SignInForm = () => {
         password: '',
         userType: 0
     });
-    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const name = useRef();
 
@@ -28,13 +27,9 @@ const SignInForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.name || !formData.email || !formData.password) {
-            setErrorMessage('Todos los campos son obligatorios. Por favor, complete todos los campos.');
             setTitleModal('Error')
             setBodyModal('Todos los campos son obligatorios. Por favor, complete todos los campos.')
             showModal()
-            setTimeout(() => {
-                setErrorMessage('');
-            }, 10000);
             return;
         }
         try {
@@ -59,7 +54,7 @@ const SignInForm = () => {
 
             setTimeout(() => {
                 navigate('/login');
-            }, 2500);
+            }, 2000);
 
             setFormData({
                 name: '',
@@ -78,9 +73,6 @@ const SignInForm = () => {
             setTitleModal('Error')
             setBodyModal(error.message)
             showModal()
-            setTimeout(() => {
-                setErrorMessage('');
-            }, 5000);
         }
     };
 
@@ -88,7 +80,6 @@ const SignInForm = () => {
         <div className='form-container'>
             <form onSubmit={handleSubmit} className="sign-in-form">
                 <h2>REGISTRATE EN FEMINARIA</h2>
-                {errorMessage && <p className="error-message">{errorMessage}</p>}
                 <div>
                     <input
                         type="text"

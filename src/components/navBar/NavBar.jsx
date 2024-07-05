@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import './NavBar.css'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -11,6 +11,7 @@ import UserContext from "../../context/userContext"
 const NavBar = () => {
     const navigate = useNavigate();
     const { userType, isLoggedIn, logout, userName } = useContext(UserContext);
+    console.log(userName);
 
     const handleLogout = () => {
         logout();
@@ -47,13 +48,13 @@ const NavBar = () => {
                             navbarScroll
                         >
                             <Nav.Link className='beige-claro' onClick={() => navigate('/')}>Inicio</Nav.Link>
-                            <Nav.Link className='beige-claro' onClick={() => navigate('/libros')}>Libros</Nav.Link>
-                            <Nav.Link className='beige-claro' onClick={() => navigate('/autoras')}>Autoras</Nav.Link>
-                            <Nav.Link className='beige-claro' onClick={() => navigate('/contacto')}>Contacto</Nav.Link>
+                            {(userType !== 2) && <Nav.Link className='beige-claro' onClick={() => navigate('/libros')}>Libros</Nav.Link>}
+                            {(userType !== 2) && <Nav.Link className='beige-claro' onClick={() => navigate('/autoras')}>Autoras</Nav.Link>}
+                            {(userType !== 2) && <Nav.Link className='beige-claro' onClick={() => navigate('/contacto')}>Contacto</Nav.Link>}
                             {userType === 2 && <Nav.Link className='beige-claro' onClick={() => navigate('/createadmin')}>Crear Admin</Nav.Link>}
                             {userType === 2 && <Nav.Link className='beige-claro' onClick={() => navigate('/usuarios')}>Usuarios</Nav.Link>}
-                            {userType == 1 && <Nav.Link className='beige-claro'onClick={() => navigate('/newbook')}>Nuevo libro</Nav.Link>}
-                            {userType == 0 && <Nav.Link className='beige-claro'onClick={() => navigate('/purchases')}>Mis compras</Nav.Link>}
+                            {userType == 1 && <Nav.Link className='beige-claro' onClick={() => navigate('/newbook')}>Nuevo libro</Nav.Link>}
+                            {userType == 0 && <Nav.Link className='beige-claro' onClick={() => navigate('/purchases')}>Mis compras</Nav.Link>}
 
                         </Nav>
                     </Navbar.Collapse>
