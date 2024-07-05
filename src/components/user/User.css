@@ -26,8 +26,8 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-size: 14px; /* Tamaño de fuente uniforme */
-    white-space: nowrap; /* Evita que el texto se desborde */
+    font-size: 14px; 
+    white-space: nowrap; 
 }
 
 .user-button:hover {

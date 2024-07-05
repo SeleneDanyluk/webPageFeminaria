@@ -85,7 +85,9 @@ function App() {
       path: "/createadmin",
       element: (
         <Layout>
-          <CreateUser></CreateUser>
+          <Protected requiredUserType={2}>
+            <CreateUser></CreateUser>
+          </Protected>
         </Layout>
       ),
     },
