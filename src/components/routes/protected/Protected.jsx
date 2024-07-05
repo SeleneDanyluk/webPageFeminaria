@@ -3,7 +3,7 @@ import { Button, Container } from 'react-bootstrap';
 import UserContext from '../../../context/userContext'
 import { useNavigate } from "react-router-dom";
 
-const Protected = ({ children, requiredUserType }) => {
+const Protected = ({ children, requiredUserType, path }) => {
     const navigate = useNavigate();
     const { isLoggedIn, userType} = useContext(UserContext);
 
@@ -23,11 +23,11 @@ const Protected = ({ children, requiredUserType }) => {
                 <Button variant='secondary' onClick={() => navigate('/login')}>Acceder</Button>
             </Container>
         );
-    } else if (userType !== requiredUserType) {
+    } else if (path == "/createadmin" && userType !== requiredUserType) {
         return (
             <Container style={messageContainerStyle}>
                 <h4>No tienes los permisos suficientes para acceder a esta sección.</h4>
-                <Button variant='secondary' onClick={() => navigate('/dashboard')}>Ir al Dashboard</Button>
+                <Button variant='secondary' onClick={() => navigate('/')}>Ir al Dashboard</Button>
             </Container>
         );
     }
